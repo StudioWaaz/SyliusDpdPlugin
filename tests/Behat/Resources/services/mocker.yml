@@ -1,0 +1,5 @@
+services:
+    waaz.tnt_plugin.behat.mocker.tnt_api_mocker:
+        class: Tests\Waaz\SyliusTntPlugin\Behat\Mocker\TntApiMocker
+        arguments:
+            - '@sylius.behat.mocker'

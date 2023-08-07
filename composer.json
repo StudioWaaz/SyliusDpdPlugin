@@ -1,0 +1,94 @@
+{
+    "name": "waaz/sylius-tnt-plugin",
+    "type": "sylius-plugin",
+    "description": "This TNT plugin enables you to easily print shipping labels and show available pickup locations for customers to choose from.",
+    "keywords": [
+        "sylius",
+        "sylius-plugin",
+        "tnt",
+        "shipping",
+        "labels",
+        "pickup"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.0",
+        "bitbag/shipping-export-plugin": "^3.0",
+        "nyholm/psr7": "^1.8",
+        "setono/sylius-pickup-point-plugin": "^1.1",
+        "sylius/sylius": "^1.11",
+        "winzou/tnt-express": "^1.1.1"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "behat/behat": "^3.7",
+        "behat/mink": "^1.9",
+        "behat/mink-selenium2-driver": "^1.6",
+        "dmore/behat-chrome-extension": "^1.4",
+        "dmore/chrome-mink-driver": "^2.8",
+        "friends-of-behat/mink": "^1.9",
+        "friends-of-behat/mink-browserkit-driver": "^1.4",
+        "friends-of-behat/mink-debug-extension": "^2.0",
+        "friends-of-behat/mink-extension": "^2.4",
+        "friends-of-behat/page-object-extension": "^0.3",
+        "friends-of-behat/suite-settings-extension": "^1.1",
+        "friends-of-behat/symfony-extension": "^2.1",
+        "friends-of-behat/variadic-extension": "^1.3",
+        "phpspec/phpspec": "^7.0",
+        "phpstan/extension-installer": "^1.2",
+        "phpstan/phpstan-doctrine": "^1",
+        "phpstan/phpstan-strict-rules": "^1",
+        "phpstan/phpstan-webmozart-assert": "^1",
+        "phpunit/phpunit": "^9.5",
+        "polishsymfonycommunity/symfony-mocker-container": "^1.0",
+        "sylius-labs/coding-standard": "^4.0",
+        "symfony/browser-kit": "^5.4|^6.0",
+        "symfony/debug-bundle": "^5.4|^6.0",
+        "symfony/dotenv": "^5.4|^6.0",
+        "symfony/http-client": "^5.4|^6.0",
+        "symfony/intl": "^5.4|^6.0",
+        "symfony/runtime": "^5.4|^6.0",
+        "symfony/web-profiler-bundle": "^5.4|^6.0",
+        "symfony/webpack-encore-bundle": "^1.16",
+        "vimeo/psalm": "^4|^5"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true,
+            "symfony/thanks": true,
+            "symfony/runtime": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.11-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Waaz\\SyliusDpdPlugin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Waaz\\SyliusTntPlugin\\": "tests/",
+            "Tests\\Waaz\\SyliusTntPlugin\\Application\\": "tests/Application/src/"
+        },
+        "classmap": [
+            "tests/Application/Kernel.php"
+        ]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php bin/create_node_symlink.php"
+        ],
+        "post-update-cmd": [
+            "php bin/create_node_symlink.php"
+        ],
+        "post-create-project-cmd": [
+            "php bin/create_node_symlink.php"
+        ]
+    }
+}

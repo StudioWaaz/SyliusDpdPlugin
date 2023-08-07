@@ -1,0 +1,5 @@
+waaz:
+    tnt_plugin:
+        city_postcode_match:
+            messages:
+                invalid: 'City and postal code do not match'

@@ -1,0 +1,27 @@
+waaz:
+    ui:
+        tnt_account_number: 'Numéro de compte TNT'
+        tnt_sender_name: 'Nom de l''expéditeur'
+        tnt_sender_address1: 'Adresse de l''expéditeur'
+        tnt_sender_address2: 'Addresse 2 de l''expéditeur'
+        tnt_sender_city: 'Ville de l''expéditeur'
+        tnt_sender_zip_code: 'Code postal de l''expéditeur'
+        tnt_sender_phone_number: 'Numéro de téléphone de l''expéditeur'
+        tnt_sender_contact_first_name: 'Prénom de contact de l''expéditeur'
+        tnt_sender_contact_last_name: 'Nom de contact de l''expéditeur'
+        tnt_sender_email_address: 'Email de l''expéditeur'
+        tnt_sender_fax_number: 'Numéro fax de l''expéditeur'
+        tnt_sender_type: 'Type de l''expéditeur'
+        tnt_receiver_type: 'Type du destinataire'
+        tnt_label_format: 'Format de l''étiquette'
+        tnt:
+            enterprise: 'Enterprise'
+            depot: 'Dépot'
+            drop_off_point: 'Relais'
+            individual: 'Individuel'
+        tnt_label: 
+            stda4: 'Standard A4'
+            thermal: 'Thermique'
+            thermal_no_logo: 'Thermique, Pas de logo'
+            thermal_rotate_180: 'Thermique, Rotation de 180°'
+            thermal_no_logo_rotate_180: 'Thermique, Pas de logo, Rotation de 180°'

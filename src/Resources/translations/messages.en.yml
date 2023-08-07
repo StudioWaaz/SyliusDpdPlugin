@@ -1,0 +1,27 @@
+waaz:
+    ui:
+        tnt_account_number: 'Account number'
+        tnt_sender_name: 'Sender name'
+        tnt_sender_address1: 'Sender address'
+        tnt_sender_address2: 'Sender address 2'
+        tnt_sender_city: 'Sender city'
+        tnt_sender_zip_code: 'Sender post code'
+        tnt_sender_phone_number: 'Sender phone number'
+        tnt_sender_contact_first_name: 'Sender contact firstname'
+        tnt_sender_contact_last_name: 'Sender contact lastname'
+        tnt_sender_email_address: 'Sender email'
+        tnt_sender_fax_number: 'Sender fax number'
+        tnt_sender_type: 'Sender type'
+        tnt_receiver_type: 'Receiver type'
+        tnt_label_format: 'Label format'
+        tnt:
+            enterprise: 'Enterprise'
+            depot: 'Depot'
+            drop_off_point: 'Drop-off point'
+            individual: 'Individual'
+        tnt_label: 
+            stda4: 'Standard A4'
+            thermal: 'Thermal'
+            thermal_no_logo: 'Thermal, No logo'
+            thermal_rotate_180: 'Thermal, Rotate 180°'
+            thermal_no_logo_rotate_180: 'Termal, No logo, Rotate 180°'

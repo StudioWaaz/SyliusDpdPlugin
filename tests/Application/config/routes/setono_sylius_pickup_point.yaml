@@ -1,0 +1,3 @@
+# config/routes/setono_sylius_pickup_point.yaml
+setono_sylius_pickup_point_plugin:
+    resource: "@SetonoSyliusPickupPointPlugin/Resources/config/routing.yaml"

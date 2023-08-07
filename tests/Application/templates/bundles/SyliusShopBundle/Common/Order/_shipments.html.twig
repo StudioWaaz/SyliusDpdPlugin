@@ -1,0 +1,39 @@
+
+ 
+
+{% set state = order.shippingState %}
+{% if state != 'cart' %}
+    {% include "@SyliusShop/Common/Order/Label/ShipmentState/orderShipmentState.html.twig" %}
+{% endif %}
+{% for shipment in order.shipments %}
+    {% set state = shipment.state %}
+    <div class="ui small icon message">
+        <i class="truck icon"></i>
+        <div class="content">
+            <div class="header" id="sylius-shipping-method" {{ sylius_test_html_attribute('shipping-method') }}>
+                {{ shipment.method }}
+            </div>
+            {% include "@SetonoSyliusPickupPointPlugin/Shop/Label/Shipment/pickupPoint.html.twig" %}
+            {% if state != 'cart' %}
+                <p id="shipment-status" {{ sylius_test_html_attribute('shipment-state') }}>
+                    {% include "@SyliusShop/Common/Order/Label/ShipmentState/singleShipmentState.html.twig" with { 'state': state } %}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.setono-sylius-pickup-point-label').forEach((elt) => {
+        fetch(elt.dataset.url)
+            .then((response) => response.json())
+            .then((response) => {
+                elt.innerHTML = `<strong>Livraison point relais</strong><br/>
+                ${response.name}<br/>
+                ${response.full_address}<br/>
+                `
+                elt.style.display = 'block';
+            })
+    })
+})
+</script>
