@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Behat\Page\Shop\ShippingPickup;
+namespace Tests\Waaz\SyliusDpdPlugin\Behat\Page\Shop\ShippingPickup;
 
 use Sylius\Behat\Page\Shop\Checkout\SelectShippingPageInterface as BaseSelectShippingPageInterface;
 

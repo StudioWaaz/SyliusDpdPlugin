@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Application\Entity;
+namespace Tests\Waaz\SyliusDpdPlugin\Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Setono\SyliusPickupPointPlugin\Model\PickupPointAwareTrait;

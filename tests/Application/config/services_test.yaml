@@ -3,7 +3,7 @@ imports:
     - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
 
 parameters:
-    sylius.behat.page.shop.checkout.address.class: Tests\Waaz\SyliusTntPlugin\Behat\Page\Shop\Checkout\AddressPage
+    sylius.behat.page.shop.checkout.address.class: Tests\Waaz\SyliusDpdPlugin\Behat\Page\Shop\Checkout\AddressPage
 
 # workaround needed for strange "test.client.history" problem
 # see https://github.com/FriendsOfBehat/SymfonyExtension/issues/88

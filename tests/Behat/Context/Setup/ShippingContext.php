@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Behat\Context\Setup;
+namespace Tests\Waaz\SyliusDpdPlugin\Behat\Context\Setup;
 
 use RuntimeException;
 use Behat\Behat\Context\Context;

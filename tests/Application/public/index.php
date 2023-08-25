@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Tests\Waaz\SyliusTntPlugin\Application\Kernel;
+use Tests\Waaz\SyliusDpdPlugin\Application\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 

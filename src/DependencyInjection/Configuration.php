@@ -15,7 +15,7 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('waaz_sylius_tnt');
+        $treeBuilder = new TreeBuilder('waaz_sylius_dpd');
         $rootNode = $treeBuilder->getRootNode();
         $this->addGlobalSection($rootNode);
 

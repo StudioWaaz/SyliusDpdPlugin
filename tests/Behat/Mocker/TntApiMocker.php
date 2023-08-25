@@ -4,9 +4,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Behat\Mocker;
+namespace Tests\Waaz\SyliusDpdPlugin\Behat\Mocker;
 
-use Waaz\SyliusTntPlugin\Api\SoapClientInterface;
+use Waaz\SyliusDpdPlugin\Api\SoapClientInterface;
 use Sylius\Behat\Service\Mocker\MockerInterface;
 
 class TntApiMocker

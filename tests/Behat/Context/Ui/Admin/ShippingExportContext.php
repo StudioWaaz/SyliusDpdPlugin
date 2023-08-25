@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Behat\Context\Ui\Admin;
+namespace Tests\Waaz\SyliusDpdPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
-use Tests\Waaz\SyliusTntPlugin\Behat\Mocker\TntApiMocker;
+use Tests\Waaz\SyliusDpdPlugin\Behat\Mocker\TntApiMocker;
 use Tests\BitBag\SyliusShippingExportPlugin\Behat\Page\Admin\ShippingExport\IndexPageInterface;
 
 final class ShippingExportContext implements Context

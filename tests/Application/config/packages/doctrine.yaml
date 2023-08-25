@@ -21,5 +21,5 @@ doctrine:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/Entity'
-                prefix: 'Tests\Waaz\SyliusTntPlugin\Application\Entity'
+                prefix: 'Tests\Waaz\SyliusDpdPlugin\Application\Entity'
                 alias: App

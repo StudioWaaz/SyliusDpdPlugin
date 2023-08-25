@@ -1,4 +1,4 @@
 suites:
     main:
-        namespace: Waaz\SyliusTntPlugin
-        psr4_prefix: Waaz\SyliusTntPlugin
+        namespace: Waaz\SyliusDpdPlugin
+        psr4_prefix: Waaz\SyliusDpdPlugin

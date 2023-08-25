@@ -1,17 +1,16 @@
 ![Logo](github.png)
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/StudioWaaz/SyliusTntPlugin/build.yml?style=for-the-badge)
-![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/StudioWaaz/SyliusTnTPlugin?style=for-the-badge)
-# WaazSyliusTntPlugin
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/StudioWaaz/SyliusDpdPlugin/build.yml?style=for-the-badge)
+![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/StudioWaaz/SyliusDpdPlugin?style=for-the-badge)
+# WaazSyliusDpdPlugin
 
-This plugin allows you to generate shipping labels for TNT carrier.
+This plugin allows you to generate shipping labels for DPD carrier.
 
 
 
 ## Features
 
-- Shipping label export
-- Check that the postal code and city match for TNT : for this feature, if the country chosen is 'FR' then the city field becomes a select with city proposals from the tnt webservice
+- Shipping label export (for standard shipping)
 
 
 ## Installation (*exporting label part*)
@@ -21,7 +20,7 @@ This plugin allows you to generate shipping labels for TNT carrier.
 Install plugin with composer
 
 ```bash
-composer require waaz/sylius-tnt-plugin
+composer require waaz/sylius-dpd-plugin
 ```
 Add plugin dependencies to your `config/bundles.php` file:
 
@@ -29,15 +28,15 @@ Add plugin dependencies to your `config/bundles.php` file:
 return [
     ...
 
-    Waaz\SyliusTntPlugin\WaazSyliusTntPlugin::class => ['all' => true],
+    Waaz\SyliusDpdPlugin\WaazSyliusDpdPlugin::class => ['all' => true],
 ];
 ```
 
-Add route in your `config/routes/sylius_shop.yaml` file:
+<!-- Add route in your `config/routes/sylius_shop.yaml` file:
 ```yaml
 ...
 waaz_tnt_shop:
-    resource: "@WaazSyliusTntPlugin/Resources/config/routing/shop_tnt.yaml"
+    resource: "@WaazSyliusDpdPlugin/Resources/config/routing/shop_tnt.yaml"
 ```
 
 Add parameter validation_groups in your `config/services.yaml` file:
@@ -45,34 +44,31 @@ Add parameter validation_groups in your `config/services.yaml` file:
 parameters:
     ...
     sylius.form.type.checkout_address.validation_groups: ['sylius', 'tnt_address']
-```
+``` -->
 
-Run assets install command : `bin/console assets:install`
+<!-- Run assets install command : `bin/console assets:install`
 
 Add plugin asset in `templates/bundles/SyliusShopBundle/_scripts.html.twig` file
 ```twig
 {% include '@SyliusUi/_javascripts.html.twig' with {'path': 'assets/shop/js/app.js'} %}
 {% include '@SyliusUi/_javascripts.html.twig' with {'path': 'bundles/waazsyliustntplugin/js/tnt-city.js'} %}
-```
+``` -->
 
 ## Configuration
-You can configure this plugin by creating a file `config/packages/waaz_sylius_tnt_plugin`:
+You can configure this plugin by creating a file `config/packages/waaz_sylius_dpd_plugin`:
 ```yml
 # Defaults values
-waaz_sylius_tnt:
-    username: 'login' # Enter your tnt username here. You should use an environment variable like `%env(TNT_PASSWORD)%`
-    password: 'password' # Same for password
+waaz_sylius_dpd:
     sandbox: true  # Sandbox mode
     weight_unit: 'g' # 'g' or 'kg'. Weight unit you use in your shop
-    city_select_classes: 'ui dropdown' # Classes you want for city select field
 
 ```
-
+<!--
 ## Installation (*pickup point part*)
 
 **Prerequisite**: you must first configure/install the `setono/sylius-pickup-point-plugin`
 
-    
+-->
 ## Running Tests
 
 - PHPSpec

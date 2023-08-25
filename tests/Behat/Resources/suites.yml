@@ -28,7 +28,7 @@ default:
 
                 - waaz.tnt_plugin.behat.context.ui.admin.shipping_gateway
             filters:
-                tags: "@managing_shipping_gateway_tnt && @ui"
+                tags: "@managing_shipping_gateway_dpd && @ui"
 
         managing_shipping_export_tnt:
             contexts:
@@ -61,7 +61,7 @@ default:
                 - bitbag.behat.context.ui.admin.shipping_export
                 - waaz.tnt_plugin.behat.context.ui.admin.shipping_export
             filters:
-                tags: "@managing_shipping_export_tnt && @ui"
+                tags: "@managing_shipping_export_dpd && @ui"
 
         managing_postcode_zipcode:
             contexts:

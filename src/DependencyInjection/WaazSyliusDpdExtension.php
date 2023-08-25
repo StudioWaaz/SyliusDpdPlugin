@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-final class WaazSyliusTntExtension extends Extension
+final class WaazSyliusDpdExtension extends Extension
 {
     /**
      * @psalm-suppress UnusedVariable
@@ -19,7 +19,7 @@ final class WaazSyliusTntExtension extends Extension
     {
         $config = $this->processConfiguration($this->getConfiguration([], $container), $configs);
         foreach ($config as $key => $value) {
-            $container->setParameter('waaz_sylius_tnt_plugin.' . $key, $value);
+            $container->setParameter('waaz_sylius_dpd_plugin.' . $key, $value);
         }
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));

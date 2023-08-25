@@ -1,92 +1,94 @@
 services:
-    waaz.tnt_plugin.action.city_choices_by_zip_code:
-        class: Waaz\SyliusDpdPlugin\Action\CityChoicesByZipCodeAction
-        arguments:
-            - '@waaz.tnt.client'
-        tags: ['controller.service_arguments']
+    # waaz.tnt_plugin.action.city_choices_by_zip_code:
+    #     class: Waaz\SyliusDpdPlugin\Action\CityChoicesByZipCodeAction
+    #     arguments:
+    #         - '@waaz.tnt.client'
+    #     tags: ['controller.service_arguments']
 
-    waaz.tnt_plugin.form.type.tnt_shipping_gateway:
+    waaz.dpd_plugin.form.type.dpd_shipping_gateway:
         class: Waaz\SyliusDpdPlugin\Form\Type\ShippingGatewayType
         tags:
-            - { name: bitbag.shipping_gateway_configuration_type, type: 'tnt', label: "TNT" }
+            - { name: bitbag.shipping_gateway_configuration_type, type: 'dpd', label: "dpd" }
 
-    waaz.tnt_plugin.api.shipping_label_fetcher:
+    waaz.dpd_plugin.api.shipping_label_fetcher:
         class: Waaz\SyliusDpdPlugin\Api\ShippingLabelFetcher
         arguments:
             - '@request_stack'
-            - '@waaz.tnt_plugin.api.client'
+            - '@waaz.dpd_plugin.api.client'
 
-    waaz.tnt_plugin.event_listener.tnt_shipping_export:
+    waaz.dpd_plugin.event_listener.dpd_shipping_export:
         class: Waaz\SyliusDpdPlugin\EventListener\ShippingExportEventListener
         arguments:
             - '@filesystem'
             - '@bitbag.repository.shipping_export'
             - '%bitbag.shipping_labels_path%'
-            - '@waaz.tnt_plugin.api.shipping_label_fetcher'
+            - '@waaz.dpd_plugin.api.shipping_label_fetcher'
         tags:
             - { name: kernel.event_listener, event: 'bitbag.shipping_export.export_shipment', method: exportShipment }
 
-    waaz.tnt_plugin.api.client:
+    waaz.dpd_plugin.api.client:
         class: Waaz\SyliusDpdPlugin\Api\Client
         arguments:
-            - '@waaz.tnt.client'
-            - '%waaz_sylius_tnt_plugin.weight_unit%'
-            - '@waaz.tnt_plugin.factory.sender'
-            - '@waaz.tnt_plugin.factory.receiver'
-            - '@waaz.tnt_plugin.factory.parcel_request'
-            - '@waaz.tnt_plugin.factory.expedition_request'
+            - '%waaz_sylius_dpd_plugin.weight_unit%'
+            - '%waaz_sylius_dpd_plugin.sandbox%'
+        #     - '@waaz.tnt.client'
+        #     - '@waaz.tnt_plugin.factory.sender'
+        #     - '@waaz.tnt_plugin.factory.receiver'
+        #     - '@waaz.tnt_plugin.factory.parcel_request'
+        #     - '@waaz.tnt_plugin.factory.expedition_request'
 
-    winzou.tnt.soap_client_builder:
-        class: TNTExpress\Client\SoapClientBuilder
-        arguments:
-            - '%waaz_sylius_tnt_plugin.username%'
-            - '%waaz_sylius_tnt_plugin.password%'
 
-    winzou.tnt.soap_client:
-        class: SoapClient
-        factory: ['@winzou.tnt.soap_client_builder', 'createClient']
-        arguments: 
-            - '%waaz_sylius_tnt_plugin.sandbox%'
+    # winzou.tnt.soap_client_builder:
+    #     class: TNTExpress\Client\SoapClientBuilder
+    #     arguments:
+    #         - '%waaz_sylius_tnt_plugin.username%'
+    #         - '%waaz_sylius_tnt_plugin.password%'
 
-    winzou.tnt.exception_manager:
-        class: TNTExpress\Exception\ExceptionManager
+    # winzou.tnt.soap_client:
+    #     class: SoapClient
+    #     factory: ['@winzou.tnt.soap_client_builder', 'createClient']
+    #     arguments: 
+    #         - '%waaz_sylius_tnt_plugin.sandbox%'
+
+    # winzou.tnt.exception_manager:
+    #     class: TNTExpress\Exception\ExceptionManager
     
-    waaz.tnt.client:
-        class: TNTExpress\Client\TNTClient
-        arguments:
-            - '@winzou.tnt.soap_client'
-            - '@winzou.tnt.exception_manager'
+    # waaz.tnt.client:
+    #     class: TNTExpress\Client\TNTClient
+    #     arguments:
+    #         - '@winzou.tnt.soap_client'
+    #         - '@winzou.tnt.exception_manager'
     
-    waaz.tnt_plugin.form.address.extension:
-        class: Waaz\SyliusDpdPlugin\Form\Extension\AddressTntExtension
-        arguments:
-            - '@router'
-            - '%waaz_sylius_tnt_plugin.city_select_classes%'
-        tags:
-            - { name: 'form.type_extension' }
+    # waaz.tnt_plugin.form.address.extension:
+    #     class: Waaz\SyliusDpdPlugin\Form\Extension\AddressTntExtension
+    #     arguments:
+    #         - '@router'
+    #         - '%waaz_sylius_tnt_plugin.city_select_classes%'
+    #     tags:
+    #         - { name: 'form.type_extension' }
     
-    waaz.tnt_plugin.validator.city_postcode_match:
-        class: Waaz\SyliusDpdPlugin\Validator\TntCityPostcodeMatchValidator
-        arguments:
-            - '@waaz.tnt.client'
-        tags:
-            - { name: 'validator.constraint_validator', alias: 'TntCityPostMatchConstraint' }
+    # waaz.tnt_plugin.validator.city_postcode_match:
+    #     class: Waaz\SyliusDpdPlugin\Validator\TntCityPostcodeMatchValidator
+    #     arguments:
+    #         - '@waaz.tnt.client'
+    #     tags:
+    #         - { name: 'validator.constraint_validator', alias: 'TntCityPostMatchConstraint' }
     
-    waaz.tnt_plugin.provider.tnt:
-        class: Waaz\SyliusDpdPlugin\Provider\TntProvider
-        arguments:
-            - '@waaz.tnt.client'
-        tags: 
-            - { name: 'setono_sylius_pickup_point.provider', code: tnt, label: 'TNT' }
+    # waaz.tnt_plugin.provider.tnt:
+    #     class: Waaz\SyliusDpdPlugin\Provider\TntProvider
+    #     arguments:
+    #         - '@waaz.tnt.client'
+    #     tags: 
+    #         - { name: 'setono_sylius_pickup_point.provider', code: tnt, label: 'TNT' }
 
-    waaz.tnt_plugin.factory.sender:
-        class: Waaz\SyliusDpdPlugin\Factory\SenderFactory
+    # waaz.tnt_plugin.factory.sender:
+    #     class: Waaz\SyliusDpdPlugin\Factory\SenderFactory
 
-    waaz.tnt_plugin.factory.receiver:
-        class: Waaz\SyliusDpdPlugin\Factory\ReceiverFactory
+    # waaz.tnt_plugin.factory.receiver:
+    #     class: Waaz\SyliusDpdPlugin\Factory\ReceiverFactory
     
-    waaz.tnt_plugin.factory.parcel_request:
-        class: Waaz\SyliusDpdPlugin\Factory\ParcelRequestFactory
+    # waaz.tnt_plugin.factory.parcel_request:
+    #     class: Waaz\SyliusDpdPlugin\Factory\ParcelRequestFactory
 
-    waaz.tnt_plugin.factory.expedition_request:
-        class: Waaz\SyliusDpdPlugin\Factory\ExpeditionRequestFactory
+    # waaz.tnt_plugin.factory.expedition_request:
+    #     class: Waaz\SyliusDpdPlugin\Factory\ExpeditionRequestFactory

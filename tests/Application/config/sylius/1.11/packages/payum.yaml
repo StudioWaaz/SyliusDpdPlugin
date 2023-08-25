@@ -1,12 +1,12 @@
 services:
   app.payum.http_client:
     public: true
-    class: Tests\Waaz\SyliusTntPlugin\Application\Payum\HttpClient\HttpClient
+    class: Tests\Waaz\SyliusDpdPlugin\Application\Payum\HttpClient\HttpClient
     arguments:
       $client: '@Psr\Http\Client\ClientInterface'
   app.payum.message_factory:
     public: true
-    class: Tests\Waaz\SyliusTntPlugin\Application\Payum\Factory\MessageFactory
+    class: Tests\Waaz\SyliusDpdPlugin\Application\Payum\Factory\MessageFactory
     arguments:
       $requestFactory: '@Psr\Http\Client\ClientInterface'
       $responseFactory: '@nyholm.psr17.factory'

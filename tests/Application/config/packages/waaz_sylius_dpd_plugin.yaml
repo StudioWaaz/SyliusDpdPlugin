@@ -1,0 +1,4 @@
+waaz_sylius_dpd:
+    # username: 'login'
+    # password: 'password'
+    sandbox: true

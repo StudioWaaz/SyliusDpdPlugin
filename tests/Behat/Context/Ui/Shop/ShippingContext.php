@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Behat\Context\Ui\Shop;
+namespace Tests\Waaz\SyliusDpdPlugin\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
 use Setono\SyliusPickupPointPlugin\Model\PickupPointAwareInterface;
@@ -10,7 +10,7 @@ use Sylius\Behat\Page\Shop\Checkout\CompletePageInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Tests\Waaz\SyliusTntPlugin\Behat\Page\Shop\ShippingPickup\SelectShippingPageInterface;
+use Tests\Waaz\SyliusDpdPlugin\Behat\Page\Shop\ShippingPickup\SelectShippingPageInterface;
 use Webmozart\Assert\Assert;
 
 final class ShippingContext implements Context

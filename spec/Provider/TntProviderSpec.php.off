@@ -1,12 +1,12 @@
 <?php
 
-namespace spec\Waaz\SyliusTntPlugin\Provider;
+namespace spec\Waaz\SyliusDpdPlugin\Provider;
 
 use PhpSpec\ObjectBehavior;
 use TNTExpress\Client\TNTClient;
 use TNTExpress\Model\DropOffPoint;
 use TNTExpress\Client\TNTClientInterface;
-use Waaz\SyliusTntPlugin\Provider\TntProvider;
+use Waaz\SyliusDpdPlugin\Provider\TntProvider;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\AddressInterface;
 use Setono\SyliusPickupPointPlugin\Model\PickupPoint;

@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert;
 
 class ShippingExportEventListener
 {
-    public const TNT_GATEWAY_CODE = 'tnt';
+    public const DPD_GATEWAY_CODE = 'dpd';
 
     public function __construct(
         private Filesystem $filesystem,
@@ -32,7 +32,7 @@ class ShippingExportEventListener
         $shippingGateway = $shippingExport->getShippingGateway();
         Assert::notNull($shippingGateway);
 
-        if (self::TNT_GATEWAY_CODE !== $shippingGateway->getCode()) {
+        if (self::DPD_GATEWAY_CODE !== $shippingGateway->getCode()) {
             return;
         }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Application\Payum\HttpClient;
+namespace Tests\Waaz\SyliusDpdPlugin\Application\Payum\HttpClient;
 
 use Payum\Core\HttpClientInterface;
 use Psr\Http\Client\ClientInterface;

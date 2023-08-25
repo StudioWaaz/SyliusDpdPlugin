@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Behat\Context\Ui\Shop;
+namespace Tests\Waaz\SyliusDpdPlugin\Behat\Context\Ui\Shop;
 
 use Webmozart\Assert\Assert;
 use Behat\Behat\Context\Context;

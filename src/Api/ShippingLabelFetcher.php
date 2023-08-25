@@ -9,12 +9,11 @@ use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use TNTExpress\Model\Expedition;
 use Webmozart\Assert\Assert;
 
 class ShippingLabelFetcher implements ShippingLabelFetcherInterface
 {
-    private ?Expedition $response = null;
+    private ?string $response = null;
 
     public function __construct(
         private RequestStack $requestStack,
@@ -58,9 +57,8 @@ class ShippingLabelFetcher implements ShippingLabelFetcherInterface
 
         $flashBag->add('success', 'bitbag.ui.shipment_data_has_been_exported');
 
-        $response = $this->response;
-        Assert::isInstanceOf($response, Expedition::class);
+        Assert::notNull($this->response);
 
-        return $response->getPDFLabels();
+        return $this->response;
     }
 }

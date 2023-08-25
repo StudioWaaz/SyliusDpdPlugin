@@ -15,13 +15,11 @@ sylius_shop:
     product_grid:
         include_all_descendants: true
 
-
-
 sylius_shipping:
     resources:
         shipment:
             classes:
-                model: Tests\Waaz\SyliusTntPlugin\Application\Entity\Shipment
+                model: Tests\Waaz\SyliusDpdPlugin\Application\Entity\Shipment
         shipping_method:
             classes:
-                model: Tests\Waaz\SyliusTntPlugin\Application\Entity\ShippingMethod
+                model: Tests\Waaz\SyliusDpdPlugin\Application\Entity\ShippingMethod

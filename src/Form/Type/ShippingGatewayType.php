@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Waaz\SyliusDpdPlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,91 +16,88 @@ final class ShippingGatewayType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('account_number', TextType::class, [
-                'label' => 'waaz.ui.tnt_account_number',
+            ->add('username', TextType::class, [
+                'label' => 'waaz.ui.dpd_username',
                 'constraints' => [
                     new NotBlank(['groups' => ['bitbag']]),
                 ],
             ])
+            ->add('password', TextType::class, [
+                'label' => 'waaz.ui.dpd_password',
+                'constraints' => [
+                    new NotBlank(['groups' => ['bitbag']]),
+                ],
+            ])
+            ->add('customer_number', TextType::class, [
+                'label' => 'waaz.ui.dpd_customer_number',
+                'constraints' => [
+                    new NotBlank(['groups' => ['bitbag']]),
+                ],
+            ])
+            ->add('customer_centernumber', TextType::class, [
+                'label' => 'waaz.ui.dpd_customer_centernumber',
+                'constraints' => [
+                    new NotBlank(['groups' => ['bitbag']]),
+                ],
+            ])
+            ->add('customer_countrycode', TextType::class, [
+                'label' => 'waaz.ui.dpd_customer_countrycode',
+                'constraints' => [
+                    new NotBlank(['groups' => ['bitbag']]),
+                ],
+                'data' => 250,
+            ])
+
             ->add('sender_name', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_name',
+                'label' => 'waaz.ui.dpd_sender_name',
                 'constraints' => [
                     new NotBlank(['groups' => ['bitbag']]),
                 ],
             ])
-            ->add('sender_address1', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_address1',
+            ->add('sender_street', TextType::class, [
+                'label' => 'waaz.ui.dpd_sender_street',
                 'constraints' => [
                     new NotBlank(['groups' => ['bitbag']]),
                 ],
-            ])
-            ->add('sender_address2', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_address2',
-                'required' => false,
             ])
             ->add('sender_city', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_city',
+                'label' => 'waaz.ui.dpd_sender_city',
                 'constraints' => [
                     new NotBlank(['groups' => ['bitbag']]),
                 ],
             ])
-            ->add('sender_zip_code', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_zip_code',
+            ->add('sender_postalcode', TextType::class, [
+                'label' => 'waaz.ui.dpd_sender_postalcode',
                 'constraints' => [
                     new NotBlank(['groups' => ['bitbag']]),
                 ],
             ])
-            ->add('sender_phone_number', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_phone_number',
+            ->add('sender_country', TextType::class, [
+                'label' => 'waaz.ui.dpd_sender_country',
+                'constraints' => [
+                    new NotBlank(['groups' => ['bitbag']]),
+                ],
+            ])
+            ->add('sender_phone', TextType::class, [
+                'label' => 'waaz.ui.dpd_sender_phone',
                 'required' => false,
             ])
-            ->add('sender_contact_first_name', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_contact_first_name',
+            ->add('sender_email', TextType::class, [
+                'label' => 'waaz.ui.dpd_sender_email',
                 'required' => false,
             ])
-            ->add('sender_contact_last_name', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_contact_last_name',
+            ->add('sender_commercial_address', CheckboxType::class, [
+                'label' => 'waaz.ui.dpd_sender_commercial_address',
                 'required' => false,
+                'data' => true,
             ])
-            ->add('sender_email_address', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_email_address',
-                'required' => false,
-            ])
-            ->add('sender_fax_number', TextType::class, [
-                'label' => 'waaz.ui.tnt_sender_fax_number',
-                'required' => false,
-            ])
-            ->add('sender_type', ChoiceType::class, [
-                'label' => 'waaz.ui.tnt_sender_type',
+            ->add('printer_format', ChoiceType::class, [
+                'label' => 'waaz.ui.dpd_printer_format.label',
                 'required' => false,
                 'choices' => [
-                    'waaz.ui.tnt.enterprise' => 'ENTERPRISE',
-                    'waaz.ui.tnt.depot' => 'DEPOT',
+                    'waaz.ui.dpd_printer_format.choices.pdf' => 'PDF',
                 ],
-                'data' => 'ENTERPRISE',
-            ])
-            ->add('receiver_type', ChoiceType::class, [
-                'label' => 'waaz.ui.tnt_receiver_type',
-                'required' => false,
-                'choices' => [
-                    'waaz.ui.tnt.enterprise' => 'ENTERPRISE',
-                    'waaz.ui.tnt.depot' => 'DEPOT',
-                    'waaz.ui.tnt.drop_off_point' => 'DROPOFFPOINT',
-                    'waaz.ui.tnt.individual' => 'INDIVIDUAL',
-                ],
-                'data' => 'INDIVIDUAL',
-            ])
-            ->add('label_format', ChoiceType::class, [
-                'label' => 'waaz.ui.tnt_label_format',
-                'required' => false,
-                'choices' => [
-                    'waaz.ui.tnt_label.stda4' => 'STDA4',
-                    'waaz.ui.tnt_label.thermal' => 'THERMAL',
-                    'waaz.ui.tnt_label.thermal_no_logo' => 'THERMAL,NO_LOGO',
-                    'waaz.ui.tnt_label.thermal_rotate_180' => 'THERMAL,ROTATE_180',
-                    'waaz.ui.tnt_label.thermal_no_logo_rotate_180' => 'THERMAL,NO_LOGO,ROTATE_180',
-                ],
-                'data' => 'STDA4',
+                'data' => 'PDF',
             ])
         ;
     }

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Behat\Page\Shop\Checkout;
+namespace Tests\Waaz\SyliusDpdPlugin\Behat\Page\Shop\Checkout;
 
 use Behat\Mink\Element\NodeElement;
 use Sylius\Behat\Page\Shop\Checkout\AddressPage as BaseAddressPage;

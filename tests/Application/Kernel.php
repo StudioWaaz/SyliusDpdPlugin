@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Application;
+namespace Tests\Waaz\SyliusDpdPlugin\Application;
 
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\Loader\LoaderInterface;

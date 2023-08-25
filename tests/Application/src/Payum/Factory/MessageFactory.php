@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Waaz\SyliusTntPlugin\Application\Payum\Factory;
+namespace Tests\Waaz\SyliusDpdPlugin\Application\Payum\Factory;
 
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
