@@ -90,5 +90,8 @@
         "post-create-project-cmd": [
             "php bin/create_node_symlink.php"
         ]
+    },
+    "conflict": {
+        "doctrine/orm": ">= 2.16.0"
     }
 }
