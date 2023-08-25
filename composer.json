@@ -1,11 +1,11 @@
 {
-    "name": "waaz/sylius-tnt-plugin",
+    "name": "waaz/sylius-dpd-plugin",
     "type": "sylius-plugin",
-    "description": "This TNT plugin enables you to easily print shipping labels and show available pickup locations for customers to choose from.",
+    "description": "This DPD plugin enables you to easily print shipping labels and show available pickup locations for customers to choose from.",
     "keywords": [
         "sylius",
         "sylius-plugin",
-        "tnt",
+        "dpd",
         "shipping",
         "labels",
         "pickup"
@@ -14,10 +14,10 @@
     "require": {
         "php": "^8.0",
         "bitbag/shipping-export-plugin": "^3.0",
+        "ekyna/dpd": "^1.3",
         "nyholm/psr7": "^1.8",
         "setono/sylius-pickup-point-plugin": "^1.1",
-        "sylius/sylius": "^1.11",
-        "winzou/tnt-express": "^1.1.1"
+        "sylius/sylius": "^1.11"
     },
     "require-dev": {
         "ext-json": "*",
