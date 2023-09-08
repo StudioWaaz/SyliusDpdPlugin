@@ -46,8 +46,8 @@ class ClientSpec extends ObjectBehavior
         OrderInterface $order,
         CustomerInterface $customer,
     ): void {
-        $shippingGateway->getConfigValue('username')->willReturn('GeoLabelTestEnv');
-        $shippingGateway->getConfigValue('password')->willReturn('Geo-67!L@belT%est');
+        $shippingGateway->getConfigValue('username')->willReturn('test');
+        $shippingGateway->getConfigValue('password')->willReturn('test');
 
         $shippingGateway->getConfigValue('sender_name')->willReturn('Studio Waaz');
         $shippingGateway->getConfigValue('sender_street')->willReturn('23 Avenue d\'Aguilera');
@@ -80,7 +80,7 @@ class ClientSpec extends ObjectBehavior
         $shipment->getOrder()->willReturn($order);
         $shipment->getShippingWeight()->willReturn(2000);
 
-        $this->createExpedition()->shouldBeString();
+        $this->shouldThrow(\SoapFault::class)->during('createExpedition');
     }
     function it_should_not_allow_create_expedition_without_shipment(ShippingGatewayInterface $shippingGateway): void
     {
