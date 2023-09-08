@@ -16,6 +16,7 @@ use Waaz\SyliusDpdPlugin\Api\ClientInterface;
 use Webmozart\Assert\InvalidArgumentException;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\AddressInterface;
+use Ekyna\Component\Dpd\Exception\ClientException;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Waaz\SyliusDpdPlugin\Factory\SenderFactoryInterface;
@@ -80,7 +81,7 @@ class ClientSpec extends ObjectBehavior
         $shipment->getOrder()->willReturn($order);
         $shipment->getShippingWeight()->willReturn(2000);
 
-        $this->shouldThrow(\SoapFault::class)->during('createExpedition');
+        $this->shouldThrow(ClientException::class)->during('createExpedition');
     }
     function it_should_not_allow_create_expedition_without_shipment(ShippingGatewayInterface $shippingGateway): void
     {
