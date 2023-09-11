@@ -26,6 +26,10 @@ final class Configuration implements ConfigurationInterface
     {
         $node
             ->children()
+                ->scalarNode('api_pickup_points_key')
+                    ->defaultValue('test')
+                    ->cannotBeEmpty()
+                ->end()
                 ->scalarNode('username')
                     ->defaultValue('login')
                     ->cannotBeEmpty()

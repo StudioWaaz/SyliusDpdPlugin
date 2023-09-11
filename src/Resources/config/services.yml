@@ -31,11 +31,19 @@ services:
         arguments:
             - '%waaz_sylius_dpd_plugin.weight_unit%'
             - '%waaz_sylius_dpd_plugin.sandbox%'
-        #     - '@waaz.tnt.client'
-        #     - '@waaz.tnt_plugin.factory.sender'
-        #     - '@waaz.tnt_plugin.factory.receiver'
-        #     - '@waaz.tnt_plugin.factory.parcel_request'
-        #     - '@waaz.tnt_plugin.factory.expedition_request'
+        
+    waaz.dpd_plugin.api.pickup_point_client:
+        class: Waaz\SyliusDpdPlugin\Api\PickupPointClient
+        arguments:
+            - '@http_client'
+            - '%waaz_sylius_dpd_plugin.api_pickup_points_key%'
+
+    waaz.dpd_plugin.provider.dpd:
+        class: Waaz\SyliusDpdPlugin\Provider\DpdProvider
+        arguments:
+            - '@waaz.dpd_plugin.api.pickup_point_client'
+        tags: 
+            - { name: 'setono_sylius_pickup_point.provider', code: 'dpd-fr', label: 'DPD France' }
 
 
     # winzou.tnt.soap_client_builder:
@@ -73,13 +81,6 @@ services:
     #         - '@waaz.tnt.client'
     #     tags:
     #         - { name: 'validator.constraint_validator', alias: 'TntCityPostMatchConstraint' }
-    
-    # waaz.tnt_plugin.provider.tnt:
-    #     class: Waaz\SyliusDpdPlugin\Provider\TntProvider
-    #     arguments:
-    #         - '@waaz.tnt.client'
-    #     tags: 
-    #         - { name: 'setono_sylius_pickup_point.provider', code: tnt, label: 'TNT' }
 
     # waaz.tnt_plugin.factory.sender:
     #     class: Waaz\SyliusDpdPlugin\Factory\SenderFactory

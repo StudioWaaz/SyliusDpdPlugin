@@ -2,3 +2,4 @@ waaz_sylius_dpd:
     # username: 'login'
     # password: 'password'
     sandbox: true
+    api_pickup_points_key : '%env(DPD_API_PICKUP_POINTS_KEY)%'
