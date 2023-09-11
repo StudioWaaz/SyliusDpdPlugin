@@ -57,6 +57,8 @@ class Client implements ClientInterface
             $weight = $this->shipment->getShippingWeight();
         }
 
+        $weight = round($weight, 2);
+
         $request->weight = (string) $weight;
 
         $response = $dpdClient->CreateShipmentWithLabelsBc($request);
