@@ -9,7 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 final class ShippingGatewayType extends AbstractType
 {
@@ -32,6 +34,11 @@ final class ShippingGatewayType extends AbstractType
                 'label' => 'waaz.ui.dpd_customer_number',
                 'constraints' => [
                     new NotBlank(['groups' => ['bitbag']]),
+                    new Regex([
+                        'pattern' => '/^\\d+$/',
+                        'message' => 'waaz.dpd_customer_number_invalid',
+                        'groups' => ['bitbag'],
+                    ]),
                 ],
             ])
             ->add('customer_centernumber', TextType::class, [
@@ -76,6 +83,11 @@ final class ShippingGatewayType extends AbstractType
                 'label' => 'waaz.ui.dpd_sender_country',
                 'constraints' => [
                     new NotBlank(['groups' => ['bitbag']]),
+                    new Length([
+                        'max' => 2,
+                        'maxMessage' => 'waaz.dpd_sender_country_invalid',
+                        'groups' => ['bitbag'],
+                    ]),
                 ],
             ])
             ->add('sender_phone', TextType::class, [

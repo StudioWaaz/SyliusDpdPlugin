@@ -1,5 +1,3 @@
 waaz:
-    tnt_plugin:
-        city_postcode_match:
-            messages:
-                invalid: 'City and postal code do not match'
+    dpd_customer_number_invalid: 'DPD customer number should only contain digits'
+    dpd_sender_country_invalid: 'Sender country should not exceed 2 characters'
