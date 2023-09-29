@@ -97,8 +97,15 @@ class DpdProvider extends Provider
         $pickup->setZipCode((string) $rawData['ZIPCODE']);
         $pickup->setCity((string) $rawData['CITY']);
         $pickup->setCountry('FR');
-        $pickup->setLatitude((float) $rawData['LATITUDE']);
-        $pickup->setLongitude((float) $rawData['LONGITUDE']);
+
+        $rawLatitude = (string) $rawData['LATITUDE'];
+        $latitude = str_replace(',', '.', $rawLatitude);
+
+        $rawLongitude = (string) $rawData['LONGITUDE'];
+        $longitude = str_replace(',', '.', $rawLongitude);
+
+        $pickup->setLatitude((float) $latitude);
+        $pickup->setLongitude((float) $longitude);
 
         return $pickup;
     }

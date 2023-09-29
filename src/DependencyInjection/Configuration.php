@@ -27,7 +27,7 @@ final class Configuration implements ConfigurationInterface
         $node
             ->children()
                 ->scalarNode('api_pickup_points_key')
-                    ->defaultValue('test')
+                    ->defaultValue('%env(resolve:DPD_API_PICKUP_POINTS_KEY)%')
                     ->cannotBeEmpty()
                 ->end()
                 ->scalarNode('username')
