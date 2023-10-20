@@ -83,9 +83,9 @@ final class ShippingAddressContext implements Context
     }
 
     /**
-     * @When I specify input billing city as :cityName
+     * @When I specify billing city as :cityName
      */
-    public function iSelectHiddenBillingCityAs(string $cityName): void
+    public function iSpecifyBillingCityAs(string $cityName): void
     {
         $this->addressPage->fillBillingData('city', $cityName);
     }

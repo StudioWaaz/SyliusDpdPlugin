@@ -10,8 +10,8 @@ Feature: Checking postcode and zipcode match
         And the store has a zone "France" with code "FR"
         And this zone has the "France" country member
         And the store has a product "PHP T-Shirt" priced at "$19.99"
-        And the store has "TNT" shipping method with "$10.00" fee within the "FR" zone
-        And shipping method "TNT" has the selected "tnt" pickup point provider
+        And the store has "DPD" shipping method with "$10.00" fee within the "FR" zone
+        And shipping method "DPD" has the selected "dpd-fr" pickup point provider
         And the store has a payment method "Offline" with a code 'offline'
         And I am a logged in customer
         
@@ -26,10 +26,10 @@ Feature: Checking postcode and zipcode match
         And I specify billing phone as "123456789"
         And I specify billing country as "France"
         And I specify billing postcode as "64200"
-        And I select billing city as "Biarritz"
+        And I specify billing city as "Biarritz"
         And I try to complete the addressing step
         Then I should be on the checkout shipping step
-        And I select "TNT" pickup point shipping method
+        And I select "DPD" pickup point shipping method
         Then I choose the first option
         And I try to complete the shipping step
         Then I should be on the checkout payment step

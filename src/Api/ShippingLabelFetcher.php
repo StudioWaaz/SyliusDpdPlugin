@@ -41,7 +41,7 @@ class ShippingLabelFetcher implements ShippingLabelFetcherInterface
             $flashBag->add(
                 'error',
                 sprintf(
-                    'TNT Service for #%s order: %s',
+                    'DPD Service for #%s order: %s',
                     $number,
                     $exception->getMessage(),
                 ),
