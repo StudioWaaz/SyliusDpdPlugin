@@ -1,8 +1,18 @@
 services:
-    waaz.dpd_plugin.form.type.dpd_shipping_gateway:
-        class: Waaz\SyliusDpdPlugin\Form\Type\ShippingGatewayType
+    waaz.dpd_plugin.form.type.dpd_shipping_gateway_classic:
+        class: Waaz\SyliusDpdPlugin\Form\Type\ShippingGatewayClassicType
         tags:
-            - { name: bitbag.shipping_gateway_configuration_type, type: 'dpd', label: "dpd" }
+            - { name: bitbag.shipping_gateway_configuration_type, type: 'dpd-classic', label: "DPD classic" }
+
+    waaz.dpd_plugin.form.type.dpd_shipping_gateway_predict:
+        class: Waaz\SyliusDpdPlugin\Form\Type\ShippingGatewayPredictType
+        tags:
+            - { name: bitbag.shipping_gateway_configuration_type, type: 'dpd-predict', label: "DPD predict" }
+
+    waaz.dpd_plugin.form.type.dpd_shipping_gateway_relay:
+        class: Waaz\SyliusDpdPlugin\Form\Type\ShippingGatewayRelayType
+        tags:
+            - { name: bitbag.shipping_gateway_configuration_type, type: 'dpd-relay', label: "DPD relay" }
 
     waaz.dpd_plugin.api.shipping_label_fetcher:
         class: Waaz\SyliusDpdPlugin\Api\ShippingLabelFetcher

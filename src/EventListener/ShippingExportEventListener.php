@@ -32,7 +32,10 @@ class ShippingExportEventListener
         $shippingGateway = $shippingExport->getShippingGateway();
         Assert::notNull($shippingGateway);
 
-        if (self::DPD_GATEWAY_CODE !== $shippingGateway->getCode()) {
+        /** @var string $shippingGatewayCode */
+        $shippingGatewayCode = $shippingGateway->getCode();
+
+        if (str_starts_with($shippingGatewayCode, self::DPD_GATEWAY_CODE) === false) {
             return;
         }
 

@@ -8,7 +8,7 @@ Feature: Managing shipping gateway
         Given the store operates on a single channel in the "United States" named "Web-US"
         And I am logged in as an administrator
         And the store has "DPD" shipping method with "$10.00" fee
-        And there is a registered "dpd" shipping gateway for this shipping method named "dpd"
+        And there is a registered "dpd-predict" shipping gateway for this shipping method named "dpd"
         And it has "username" field set to "username"
         And it has "password" field set to "password"
         And it has "customer_number" field set to "123"

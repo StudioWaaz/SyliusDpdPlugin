@@ -7,13 +7,14 @@ namespace Waaz\SyliusDpdPlugin\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
-final class ShippingGatewayType extends AbstractType
+final class ShippingGatewayRelayType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -55,14 +56,8 @@ final class ShippingGatewayType extends AbstractType
                 'data' => 250,
             ])
 
-            ->add('type', ChoiceType::class, [
-                'label' => 'waaz.ui.dpd_type',
-                'choices' => [
-                    'DPD classic' => 'classic',
-                    'DPD predict' => 'predict',
-                    'DPD point relais' => 'relay',
-                ],
-                'data' => 'classic',
+            ->add('type', HiddenType::class, [
+                'data' => 'relay',
             ])
 
             ->add('sender_name', TextType::class, [
