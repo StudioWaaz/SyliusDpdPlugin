@@ -157,8 +157,11 @@ jobs:
                 name: Prepare test application assets
                 run: |
                     (cd tests/Application && bin/console assets:install public -vvv)
-                    (cd tests/Application && yarn build)
+                    (cd tests/Application && bin/console sylius:theme:assets:install -vvv)
 
+            -
+                name: Build test application assets
+                run: (cd tests/Application && yarn build)
             -
                 name: Prepare test application cache
                 run: (cd tests/Application && bin/console cache:warmup -vvv)
