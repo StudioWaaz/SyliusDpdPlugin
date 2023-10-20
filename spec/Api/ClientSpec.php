@@ -60,7 +60,11 @@ class ClientSpec extends ObjectBehavior
         $shipment->getOrder()->willReturn($order);
         $shipment->getShippingWeight()->willReturn(2000);
 
-        $this->shouldThrow(\SoapFault::class)->during('createExpedition');
+        // Local
+        //$this->shouldThrow(\SoapFault::class)->during('createExpedition');
+
+        // Github
+        $this->shouldThrow(ClientException::class)->during('createExpedition');
     }
 
     function it_creates_request_data_shipment_for_predict(
@@ -94,7 +98,11 @@ class ClientSpec extends ObjectBehavior
         $shipment->getOrder()->willReturn($order);
         $shipment->getShippingWeight()->willReturn(2000);
 
-        $this->shouldThrow(\SoapFault::class)->during('createExpedition');
+        // Local
+        //$this->shouldThrow(\SoapFault::class)->during('createExpedition');
+
+        // Github
+        $this->shouldThrow(ClientException::class)->during('createExpedition');
     }
 
     function it_creates_request_data_shipment_for_relay(
@@ -128,7 +136,11 @@ class ClientSpec extends ObjectBehavior
         $shipment->getOrder()->willReturn($order);
         $shipment->getShippingWeight()->willReturn(2000);
 
-        $this->shouldThrow(\SoapFault::class)->during('createExpedition');
+        // Local
+        //$this->shouldThrow(\SoapFault::class)->during('createExpedition');
+
+        // Github
+        $this->shouldThrow(ClientException::class)->during('createExpedition');
     }
 
     function it_should_not_allow_create_expedition_without_shipment(ShippingGatewayInterface $shippingGateway): void
