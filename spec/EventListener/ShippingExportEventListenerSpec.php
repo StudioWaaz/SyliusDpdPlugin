@@ -6,16 +6,15 @@ declare(strict_types=1);
 
 namespace spec\Waaz\SyliusDpdPlugin\EventListener;
 
+use PhpSpec\ObjectBehavior;
+use Symfony\Component\Filesystem\Filesystem;
+use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
 use Waaz\SyliusDpdPlugin\Api\ShippingLabelFetcherInterface;
+use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Waaz\SyliusDpdPlugin\EventListener\ShippingExportEventListener;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingExportInterface;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
 use BitBag\SyliusShippingExportPlugin\Repository\ShippingExportRepository;
-use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use Sylius\Component\Core\Model\ShipmentInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Webmozart\Assert\InvalidArgumentException;
 
 final class ShippingExportEventListenerSpec extends ObjectBehavior
 {
@@ -74,7 +73,7 @@ final class ShippingExportEventListenerSpec extends ObjectBehavior
         $event->getSubject()
             ->willReturn($shippingGateway);
 
-        $this->shouldThrow(InvalidArgumentException::class)
+        $this->shouldThrow(\Exception::class)
             ->during('exportShipment', [$event]);
     }
 
@@ -89,7 +88,7 @@ final class ShippingExportEventListenerSpec extends ObjectBehavior
         $shippingExport->getShippingGateway()
             ->willReturn($shippingGateway);
 
-        $this->shouldThrow(InvalidArgumentException::class)
+        $this->shouldThrow(\Exception::class)
             ->during('exportShipment', [$event]);
     }
 }

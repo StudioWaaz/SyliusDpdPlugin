@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Waaz\SyliusDpdPlugin\Api;
 
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
-use Sylius\Component\Core\Model\ShipmentInterface;
+use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
 
 interface ClientInterface
 {

@@ -6,7 +6,13 @@ namespace Waaz\SyliusDpdPlugin\Api;
 
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
 use Ekyna\Component\Dpd\EPrint;
-use Sylius\Component\Core\Model\ShipmentInterface;
+use Ekyna\Component\Dpd\EPrint\Enum\ETypeContact;
+use Ekyna\Component\Dpd\EPrint\Model\Contact;
+use Ekyna\Component\Dpd\EPrint\Model\ParcelShop;
+use Ekyna\Component\Dpd\EPrint\Model\ShopAddress;
+use Ekyna\Component\Dpd\EPrint\Model\StdServices;
+use Setono\SyliusPickupPointPlugin\Model\PickupPointCode;
+use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
 use Webmozart\Assert\Assert;
 
 class Client implements ClientInterface
@@ -16,13 +22,8 @@ class Client implements ClientInterface
     private ?ShipmentInterface $shipment = null;
 
     public function __construct(
-        //private TNTClient $tntClient,
         private string $weightUnit,
         private bool $sandbox,
-        // private SenderFactoryInterface $senderFactory,
-        // private ReceiverFactoryInterface $receiverFactory,
-        // private ParcelRequestFactoryInterface $parcelRequestFactory,
-        // private ExpeditionRequestFactoryInterface $expeditionRequestFactory,
     ) {
     }
 
@@ -39,6 +40,7 @@ class Client implements ClientInterface
     public function createExpedition(): string
     {
         Assert::notNull($this->shipment, 'Shipment cannot be null');
+        Assert::notNull($this->shippingGateway, 'Shipping gateway cannot be null');
 
         $dpdClient = $this->buildDpdClient();
 
@@ -61,8 +63,16 @@ class Client implements ClientInterface
 
         $request->weight = (string) $weight;
 
-        $response = $dpdClient->CreateShipmentWithLabelsBc($request);
+        /** @var string $dpdType */
+        $dpdType = $this->shippingGateway->getConfigValue('type');
 
+        if ($dpdType === 'predict') {
+            $request->services = $this->addPredictService();
+        } elseif ($dpdType === 'relay') {
+            $request->services = $this->addRelayService();
+        }
+
+        $response = $dpdClient->CreateShipmentWithLabelsBc($request);
         $result = $response->CreateShipmentWithLabelsBcResult;
 
         /** @var \Ekyna\Component\Dpd\EPrint\Model\Label $label */
@@ -182,5 +192,53 @@ class Client implements ClientInterface
         $shipperaddress->phoneNumber = $phoneNumber;
 
         return $shipperaddress;
+    }
+
+    private function addPredictService(): StdServices
+    {
+        $services = new StdServices();
+        $services->contact = new Contact();
+        $services->contact->type = ETypeContact::PREDICT;
+
+        Assert::notNull($this->shipment, 'Shipment cannot be null');
+        /** @var \Sylius\Component\Core\Model\OrderInterface $order */
+        $order = $this->shipment->getOrder();
+
+        /** @var \Sylius\Component\Core\Model\AddressInterface $address */
+        $address = $order->getShippingAddress();
+
+        $phoneNumber = $address->getPhoneNumber();
+        Assert::notNull($phoneNumber, 'Phone number cannot be null for predict service');
+        $services->contact->sms = $phoneNumber;
+
+        return $services;
+    }
+
+    private function addRelayService(): StdServices
+    {
+        Assert::notNull($this->shipment, 'Shipment cannot be null');
+        $pickupPointId = $this->shipment->getPickupPointId();
+        Assert::notNull($pickupPointId, 'Pickup point id cannot be null for relay service');
+
+        $services = new StdServices();
+        $services->parcelshop = new ParcelShop();
+        $services->parcelshop->shopaddress = new ShopAddress();
+        $setonoPickupPointCode = PickupPointCode::createFromString($pickupPointId);
+        $services->parcelshop->shopaddress->shopid = $setonoPickupPointCode->getIdPart();
+
+        /** @var \Sylius\Component\Core\Model\OrderInterface $order */
+        $order = $this->shipment->getOrder();
+
+        /** @var \Sylius\Component\Core\Model\AddressInterface $address */
+        $address = $order->getShippingAddress();
+
+        $phoneNumber = $address->getPhoneNumber();
+        Assert::notNull($phoneNumber, 'Phone number cannot be null for relay service');
+
+        $services->contact = new Contact();
+        $services->contact->type = ETypeContact::AUTOMATIC_SMS;
+        $services->contact->sms = $phoneNumber;
+
+        return $services;
     }
 }

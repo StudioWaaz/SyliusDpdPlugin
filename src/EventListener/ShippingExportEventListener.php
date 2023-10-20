@@ -6,8 +6,8 @@ namespace Waaz\SyliusDpdPlugin\EventListener;
 
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingExportInterface;
 use BitBag\SyliusShippingExportPlugin\Repository\ShippingExportRepository;
+use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use Sylius\Component\Core\Model\ShipmentInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Waaz\SyliusDpdPlugin\Api\ShippingLabelFetcherInterface;
 use Webmozart\Assert\Assert;

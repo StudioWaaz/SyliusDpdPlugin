@@ -55,6 +55,16 @@ final class ShippingGatewayType extends AbstractType
                 'data' => 250,
             ])
 
+            ->add('type', ChoiceType::class, [
+                'label' => 'waaz.ui.dpd_type',
+                'choices' => [
+                    'DPD classic' => 'classic',
+                    'DPD predict' => 'predict',
+                    'DPD point relais' => 'relay',
+                ],
+                'data' => 'classic',
+            ])
+
             ->add('sender_name', TextType::class, [
                 'label' => 'waaz.ui.dpd_sender_name',
                 'constraints' => [

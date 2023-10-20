@@ -1,10 +1,4 @@
 services:
-    # waaz.tnt_plugin.action.city_choices_by_zip_code:
-    #     class: Waaz\SyliusDpdPlugin\Action\CityChoicesByZipCodeAction
-    #     arguments:
-    #         - '@waaz.tnt.client'
-    #     tags: ['controller.service_arguments']
-
     waaz.dpd_plugin.form.type.dpd_shipping_gateway:
         class: Waaz\SyliusDpdPlugin\Form\Type\ShippingGatewayType
         tags:
@@ -44,52 +38,3 @@ services:
             - '@waaz.dpd_plugin.api.pickup_point_client'
         tags: 
             - { name: 'setono_sylius_pickup_point.provider', code: 'dpd-fr', label: 'DPD France' }
-
-
-    # winzou.tnt.soap_client_builder:
-    #     class: TNTExpress\Client\SoapClientBuilder
-    #     arguments:
-    #         - '%waaz_sylius_tnt_plugin.username%'
-    #         - '%waaz_sylius_tnt_plugin.password%'
-
-    # winzou.tnt.soap_client:
-    #     class: SoapClient
-    #     factory: ['@winzou.tnt.soap_client_builder', 'createClient']
-    #     arguments: 
-    #         - '%waaz_sylius_tnt_plugin.sandbox%'
-
-    # winzou.tnt.exception_manager:
-    #     class: TNTExpress\Exception\ExceptionManager
-    
-    # waaz.tnt.client:
-    #     class: TNTExpress\Client\TNTClient
-    #     arguments:
-    #         - '@winzou.tnt.soap_client'
-    #         - '@winzou.tnt.exception_manager'
-    
-    # waaz.tnt_plugin.form.address.extension:
-    #     class: Waaz\SyliusDpdPlugin\Form\Extension\AddressTntExtension
-    #     arguments:
-    #         - '@router'
-    #         - '%waaz_sylius_tnt_plugin.city_select_classes%'
-    #     tags:
-    #         - { name: 'form.type_extension' }
-    
-    # waaz.tnt_plugin.validator.city_postcode_match:
-    #     class: Waaz\SyliusDpdPlugin\Validator\TntCityPostcodeMatchValidator
-    #     arguments:
-    #         - '@waaz.tnt.client'
-    #     tags:
-    #         - { name: 'validator.constraint_validator', alias: 'TntCityPostMatchConstraint' }
-
-    # waaz.tnt_plugin.factory.sender:
-    #     class: Waaz\SyliusDpdPlugin\Factory\SenderFactory
-
-    # waaz.tnt_plugin.factory.receiver:
-    #     class: Waaz\SyliusDpdPlugin\Factory\ReceiverFactory
-    
-    # waaz.tnt_plugin.factory.parcel_request:
-    #     class: Waaz\SyliusDpdPlugin\Factory\ParcelRequestFactory
-
-    # waaz.tnt_plugin.factory.expedition_request:
-    #     class: Waaz\SyliusDpdPlugin\Factory\ExpeditionRequestFactory

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Waaz\SyliusDpdPlugin\Api;
 
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
-use Sylius\Component\Core\Model\ShipmentInterface;
+use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;

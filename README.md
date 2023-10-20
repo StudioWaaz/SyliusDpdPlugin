@@ -10,12 +10,12 @@ This plugin allows you to generate shipping labels for DPD carrier.
 
 ## Features
 
-- Shipping label export (for standard shipping)
+- Shipping label export (for classic, predict & relay shipping)
 
 
-## Installation (*exporting label part*)
+## Installation
 
-**Prerequisite**: you must first configure/install the `bitbag/shipping-export-plugin`
+**Prerequisite**: you must first configure/install the `bitbag/shipping-export-plugin` &  `setono/sylius-pickup-point-plugin`
 
 Install plugin with composer
 
@@ -32,29 +32,9 @@ return [
 ];
 ```
 
-<!-- Add route in your `config/routes/sylius_shop.yaml` file:
-```yaml
-...
-waaz_tnt_shop:
-    resource: "@WaazSyliusDpdPlugin/Resources/config/routing/shop_tnt.yaml"
-```
-
-Add parameter validation_groups in your `config/services.yaml` file:
-```yaml
-parameters:
-    ...
-    sylius.form.type.checkout_address.validation_groups: ['sylius', 'tnt_address']
-``` -->
-
-<!-- Run assets install command : `bin/console assets:install`
-
-Add plugin asset in `templates/bundles/SyliusShopBundle/_scripts.html.twig` file
-```twig
-{% include '@SyliusUi/_javascripts.html.twig' with {'path': 'assets/shop/js/app.js'} %}
-{% include '@SyliusUi/_javascripts.html.twig' with {'path': 'bundles/waazsyliustntplugin/js/tnt-city.js'} %}
-``` -->
-
 ## Configuration
+`DPD_API_PICKUP_POINTS_KEY` should be set if you wish to use pickup point deliveries.
+
 You can configure this plugin by creating a file `config/packages/waaz_sylius_dpd_plugin`:
 ```yml
 # Defaults values
