@@ -1,7 +1,6 @@
 ![Logo](github.png)
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/StudioWaaz/SyliusDpdPlugin/build.yml?style=for-the-badge)
-![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/StudioWaaz/SyliusDpdPlugin?style=for-the-badge)
 # WaazSyliusDpdPlugin
 
 This plugin allows you to generate shipping labels for DPD carrier.
