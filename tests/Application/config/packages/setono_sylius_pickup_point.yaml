@@ -6,9 +6,3 @@ imports:
 setono_sylius_pickup_point:
     providers:
         faker: true
-        # tnt: true
-        # budbee: true
-        # coolrunner: true
-        # gls: true
-        # post_nord: true
-        # dao: true

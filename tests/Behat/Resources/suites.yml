@@ -1,6 +1,6 @@
 default:
     suites:
-        managing_shipping_gateway_tnt:
+        managing_shipping_gateway_dpd:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - bitbag.behat.context.hook.shipping_export
@@ -26,11 +26,11 @@ default:
                 - bitbag.behat.context.setup.shipping_gateway
                 - bitbag.behat.context.setup.shipping_export
 
-                - waaz.tnt_plugin.behat.context.ui.admin.shipping_gateway
+                - waaz.dpd_plugin.behat.context.ui.admin.shipping_gateway
             filters:
                 tags: "@managing_shipping_gateway_dpd && @ui"
 
-        managing_shipping_export_tnt:
+        managing_shipping_export_dpd:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - bitbag.behat.context.hook.shipping_export
@@ -55,11 +55,11 @@ default:
                 - sylius.behat.context.setup.shop_security
                 - bitbag.behat.context.setup.shipping_gateway
                 - bitbag.behat.context.setup.shipping_export
-                - waaz.tnt_plugin.behat.context.setup.shipping_gateway
+                - waaz.dpd_plugin.behat.context.setup.shipping_gateway
 
                 - bitbag.behat.context.ui.admin.shipping_gateway
                 - bitbag.behat.context.ui.admin.shipping_export
-                - waaz.tnt_plugin.behat.context.ui.admin.shipping_export
+                - waaz.dpd_plugin.behat.context.ui.admin.shipping_export
             filters:
                 tags: "@managing_shipping_export_dpd && @ui"
 
@@ -98,7 +98,7 @@ default:
                 - sylius.behat.context.ui.shop.checkout.addressing
                 - sylius.behat.context.ui.shop.checkout.shipping
                 - sylius.behat.context.ui.user
-                - waaz.tnt_plugin.behat.context.ui.shop.shipping_address
+                - waaz.dpd_plugin.behat.context.ui.shop.shipping_address
             filters:
                 tags: "@managing_postcode_zipcode && @ui"
 
@@ -131,7 +131,7 @@ default:
                 - sylius.behat.context.setup.payment
                 - sylius.behat.context.setup.user
                 - sylius.behat.context.setup.zone
-                - waaz.tnt_plugin.behat.context.setup.shipping_method
+                - waaz.dpd_plugin.behat.context.setup.shipping_method
 
                 - sylius.behat.context.ui.channel
                 - sylius.behat.context.ui.shop.address_book
@@ -143,7 +143,7 @@ default:
                 - sylius.behat.context.ui.shop.checkout.complete
                 - sylius.behat.context.ui.shop.checkout.thank_you
                 - sylius.behat.context.ui.user
-                - waaz.tnt_plugin.behat.context.ui.shop.shipping_address
-                - waaz.tnt_plugin.behat.context.ui.shop.shipping
+                - waaz.dpd_plugin.behat.context.ui.shop.shipping_address
+                - waaz.dpd_plugin.behat.context.ui.shop.shipping
             filters:
                 tags: "@selecting_pickup && @ui"

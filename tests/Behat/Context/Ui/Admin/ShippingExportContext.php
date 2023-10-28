@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Tests\Waaz\SyliusDpdPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
-use Tests\Waaz\SyliusDpdPlugin\Behat\Mocker\TntApiMocker;
+use Tests\Waaz\SyliusDpdPlugin\Behat\Mocker\DpdApiMocker;
 use Tests\BitBag\SyliusShippingExportPlugin\Behat\Page\Admin\ShippingExport\IndexPageInterface;
 
 final class ShippingExportContext implements Context
@@ -15,14 +15,14 @@ final class ShippingExportContext implements Context
     /** @var IndexPageInterface */
     private $indexPage;
 
-    /** @var TntApiMocker */
-    private $tntApiMocker;
+    /** @var DpdApiMocker */
+    private $dpdApiMocker;
 
     public function __construct(
         IndexPageInterface $indexPage,
-        TntApiMocker $tntApiMocker
+        DpdApiMocker $dpdApiMocker
     ) {
-        $this->tntApiMocker = $tntApiMocker;
+        $this->dpdApiMocker = $dpdApiMocker;
         $this->indexPage = $indexPage;
     }
 
@@ -31,7 +31,7 @@ final class ShippingExportContext implements Context
      */
     public function iExportAllNewShipments(): void
     {
-        $this->tntApiMocker->performActionInApiSuccessfulScope(function () {
+        $this->dpdApiMocker->performActionInApiSuccessfulScope(function () {
             $this->indexPage->exportAllShipments();
         });
     }
@@ -41,7 +41,7 @@ final class ShippingExportContext implements Context
      */
     public function iExportFirsShipments(): void
     {
-        $this->tntApiMocker->performActionInApiSuccessfulScope(function () {
+        $this->dpdApiMocker->performActionInApiSuccessfulScope(function () {
             $this->indexPage->exportFirsShipment();
         });
     }

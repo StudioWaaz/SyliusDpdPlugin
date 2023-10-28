@@ -6,10 +6,10 @@ declare(strict_types=1);
 
 namespace Tests\Waaz\SyliusDpdPlugin\Behat\Mocker;
 
-use Waaz\SyliusDpdPlugin\Api\SoapClientInterface;
+use Waaz\SyliusDpdPlugin\Api\ClientInterface;
 use Sylius\Behat\Service\Mocker\MockerInterface;
 
-class TntApiMocker
+class DpdApiMocker
 {
     /** @var MockerInterface */
     private $mocker;
@@ -21,12 +21,12 @@ class TntApiMocker
 
     public function performActionInApiSuccessfulScope(callable $action): void
     {
-        $this->mockApiSuccessfulTntResponse();
+        $this->mockApiSuccessfulDpdResponse();
         $action();
         $this->mocker->unmockAll();
     }
 
-    private function mockApiSuccessfulTntResponse(): void
+    private function mockApiSuccessfulDpdResponse(): void
     {
         $createShipmentResult = (object) [
             'createShipmentResult' => (object) [
@@ -40,8 +40,8 @@ class TntApiMocker
         $this
             ->mocker
             ->mockService(
-                'waaz.tnt_plugin.api.soap_client',
-                SoapClientInterface::class
+                'waaz.dpd_plugin.api.client',
+                ClientInterface::class
             )
             ->shouldReceive('createShipment')
             ->andReturn($createShipmentResult)

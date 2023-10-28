@@ -1,13 +1,13 @@
 services:
-    waaz.tnt_plugin.behat.context.ui.admin.shipping_gateway:
+    waaz.dpd_plugin.behat.context.ui.admin.shipping_gateway:
         class: Tests\Waaz\SyliusDpdPlugin\Behat\Context\Ui\Admin\ShippingGatewayContext
         public: true
         arguments:
-            - '@waaz.tnt_plugin.behat.page.admin.shipping_gateway.create'
+            - '@waaz.dpd_plugin.behat.page.admin.shipping_gateway.create'
             - '@sylius.behat.current_page_resolver'
             - '@sylius.behat.notification_checker'
 
-    waaz.tnt_plugin.behat.context.setup.shipping_gateway:
+    waaz.dpd_plugin.behat.context.setup.shipping_gateway:
         class: Tests\Waaz\SyliusDpdPlugin\Behat\Context\Setup\ShippingGatewayContext
         public: true
         arguments:
@@ -17,36 +17,36 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@sylius.behat.shared_storage'
 
-    waaz.tnt_plugin.behat.context.ui.admin.shipping_export:
+    waaz.dpd_plugin.behat.context.ui.admin.shipping_export:
         class: Tests\Waaz\SyliusDpdPlugin\Behat\Context\Ui\Admin\ShippingExportContext
         public: true
         arguments:
             - '@bitbag.behat.page.admin.shipping_export.index'
-            - '@waaz.tnt_plugin.behat.mocker.tnt_api_mocker'
+            - '@waaz.dpd_plugin.behat.mocker.dpd_api_mocker'
 
-    waaz.tnt_plugin.behat.context.ui.shop.shipping_address:
+    waaz.dpd_plugin.behat.context.ui.shop.shipping_address:
         class: Tests\Waaz\SyliusDpdPlugin\Behat\Context\Ui\Shop\ShippingAddressContext
         public: true
         arguments:
             - '@sylius.behat.page.shop.checkout.address'
 
-    waaz.tnt_plugin.behat.context.setup.shipping_method:
+    waaz.dpd_plugin.behat.context.setup.shipping_method:
         class: Tests\Waaz\SyliusDpdPlugin\Behat\Context\Setup\ShippingContext
         public: true
         arguments:
             - '@setono_sylius_pickup_point.registry.provider'
             - '@sylius.manager.shipping_method'
 
-    waaz.tnt_plugin.behat.context.ui.shop.shipping:
+    waaz.dpd_plugin.behat.context.ui.shop.shipping:
         class: Tests\Waaz\SyliusDpdPlugin\Behat\Context\Ui\Shop\ShippingContext
         public: true
         arguments:
-            - '@waaz.tnt_plugin.page.shop.select_shipping'
+            - '@waaz.dpd_plugin.page.shop.select_shipping'
             - '@sylius.behat.page.shop.checkout.complete'
             - '@sylius.behat.shared_storage'
             - '@sylius.repository.order'
     
-    waaz.tnt_plugin.page.shop.select_shipping: 
+    waaz.dpd_plugin.page.shop.select_shipping: 
         class: Tests\Waaz\SyliusDpdPlugin\Behat\Page\Shop\ShippingPickup\SelectShippingPage
         parent: sylius.behat.page.shop.checkout.select_shipping
         public: false

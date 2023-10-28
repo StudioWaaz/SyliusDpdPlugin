@@ -1,5 +1,5 @@
 services:
-    waaz.tnt_plugin.behat.page.admin.shipping_gateway.create:
+    waaz.dpd_plugin.behat.page.admin.shipping_gateway.create:
         class: Tests\Waaz\SyliusDpdPlugin\Behat\Page\Admin\ShippingGateway\CreatePage
         parent: sylius.behat.page.admin.crud.create
         public: false
