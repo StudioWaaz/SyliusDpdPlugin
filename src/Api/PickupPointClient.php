@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Waaz\SyliusDpdPlugin\Api;
 
+use Sylius\Component\Core\Model\AddressInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class PickupPointClient implements PickupPointClientInterface
@@ -18,16 +19,16 @@ class PickupPointClient implements PickupPointClientInterface
         $this->apiPickupPointsKey = $apiPickupPointsKey;
     }
 
-    public function getPickupPointsByPostcode(string $postcode): iterable
+    public function getPickupPointsByShippingAddress(AddressInterface $address): iterable
     {
         try {
             $params = [
                 'carrier' => 'EXA',
                 'key' => $this->apiPickupPointsKey,
                 'address' => '',
-                'zipCode' => $postcode,
-                'city' => '',
-                'countrycode' => '',
+                'zipCode' => $address->getPostcode(),
+                'city' => $address->getCity(),
+                'countrycode' => $address->getCountryCode(),
                 'requestID' => '123',
                 'date_from' => (new \DateTime())->format('d/m/Y'),
                 'max_pudo_number' => '',

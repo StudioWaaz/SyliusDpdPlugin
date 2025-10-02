@@ -48,23 +48,16 @@ class DpdProvider extends Provider
         $orderAddress = $order->getShippingAddress();
         Assert::notNull($orderAddress, 'Order address cannot be null');
 
-        $postcode = $orderAddress->getPostcode();
-        Assert::notNull($postcode, 'Postcode cannot be null');
+        $rawData = $this->client->getPickupPointsByShippingAddress($orderAddress);
 
-        $rawData = $this->client->getPickupPointsByPostcode($postcode);
-
-        $pickups = $this->transformRawDataToPickupPoints($rawData);
-
-        return $pickups;
+        return $this->transformRawDataToPickupPoints($rawData);
     }
 
     public function findPickupPoint(PickupPointCode $code): ?PickupPointInterface
     {
         $rawPickup = $this->client->getPickupPointByCode($code->getIdPart());
 
-        $pickup = $this->transformRawDataToPickupPoint($rawPickup);
-
-        return $pickup;
+        return $this->transformRawDataToPickupPoint($rawPickup);
     }
 
     /**
