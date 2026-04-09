@@ -19,6 +19,7 @@ services:
         arguments:
             - '@request_stack'
             - '@waaz.dpd_plugin.api.client'
+            - '@logger'
 
     waaz.dpd_plugin.event_listener.dpd_shipping_export:
         class: Waaz\SyliusDpdPlugin\EventListener\ShippingExportEventListener
@@ -35,7 +36,7 @@ services:
         arguments:
             - '%waaz_sylius_dpd_plugin.weight_unit%'
             - '%waaz_sylius_dpd_plugin.sandbox%'
-        
+
     waaz.dpd_plugin.api.pickup_point_client:
         class: Waaz\SyliusDpdPlugin\Api\PickupPointClient
         arguments:
@@ -46,5 +47,5 @@ services:
         class: Waaz\SyliusDpdPlugin\Provider\DpdProvider
         arguments:
             - '@waaz.dpd_plugin.api.pickup_point_client'
-        tags: 
+        tags:
             - { name: 'setono_sylius_pickup_point.provider', code: 'dpd-fr', label: 'DPD France' }
