@@ -45,7 +45,9 @@ class ShippingExportEventListener
         $this->shippingLabelFetcher->createShipment($shippingGateway, $shipment);
 
         $labelContent = $this->shippingLabelFetcher->getLabelContent();
-        Assert::stringNotEmpty($labelContent);
+        if ($labelContent === null) {
+            return;
+        }
 
         $trackingCode = $this->shippingLabelFetcher->getTrackingCode();
         if ($trackingCode !== null) {

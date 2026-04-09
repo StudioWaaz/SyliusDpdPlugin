@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace spec\Waaz\SyliusDpdPlugin\EventListener;
 
+use Prophecy\Argument;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\Filesystem\Filesystem;
 use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
@@ -77,18 +78,26 @@ final class ShippingExportEventListenerSpec extends ObjectBehavior
             ->during('exportShipment', [$event]);
     }
 
-    function it_throws_exception_if_shipping_gateway_is_null(
+    function it_does_not_export_if_label_content_is_null(
         ResourceControllerEvent $event,
-        ShippingExportInterface $shippingExport
+        ShippingExportInterface $shippingExport,
+        ShippingGatewayInterface $shippingGateway,
+        ShipmentInterface $shipment,
+        ShippingLabelFetcherInterface $shippingLabelFetcher,
+        Filesystem $filesystem
     ): void {
-        $shippingGateway = null;
-        $event->getSubject()
-            ->willReturn($shippingExport);
-        
-        $shippingExport->getShippingGateway()
-            ->willReturn($shippingGateway);
+        $event->getSubject()->willReturn($shippingExport);
+        $shippingExport->getShippingGateway()->willReturn($shippingGateway);
+        $shippingGateway->getCode()->willReturn('dpd');
+        $shippingExport->getShipment()->willReturn($shipment);
 
-        $this->shouldThrow(\Exception::class)
-            ->during('exportShipment', [$event]);
+        $shippingLabelFetcher->createShipment($shippingGateway, $shipment)->shouldBeCalled();
+        $shippingLabelFetcher->getLabelContent()->willReturn(null);
+
+        // Verification that label saving and tracking code update are NOT called
+        $shippingLabelFetcher->getTrackingCode()->shouldNotBeCalled();
+        $filesystem->dumpFile(Argument::any(), Argument::any())->shouldNotBeCalled();
+
+        $this->exportShipment($event);
     }
 }
