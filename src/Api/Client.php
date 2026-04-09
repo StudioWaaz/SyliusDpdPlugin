@@ -8,11 +8,14 @@ use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
 use Ekyna\Component\Dpd\EPrint;
 use Ekyna\Component\Dpd\EPrint\Enum\ETypeContact;
 use Ekyna\Component\Dpd\EPrint\Model\Contact;
+use Ekyna\Component\Dpd\EPrint\Model\Label;
 use Ekyna\Component\Dpd\EPrint\Model\ParcelShop;
+use Ekyna\Component\Dpd\EPrint\Model\ShipmentBc;
 use Ekyna\Component\Dpd\EPrint\Model\ShopAddress;
 use Ekyna\Component\Dpd\EPrint\Model\StdServices;
 use Setono\SyliusPickupPointPlugin\Model\PickupPointCode;
 use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
+use Waaz\SyliusDpdPlugin\Api\Model\ShipmentResponse;
 use Webmozart\Assert\Assert;
 
 class Client implements ClientInterface
@@ -37,7 +40,7 @@ class Client implements ClientInterface
         $this->shipment = $shipment;
     }
 
-    public function createExpedition(): string
+    public function createExpedition(): ShipmentResponse
     {
         Assert::notNull($this->shipment, 'Shipment cannot be null');
         Assert::notNull($this->shippingGateway, 'Shipping gateway cannot be null');
@@ -75,10 +78,19 @@ class Client implements ClientInterface
         $response = $dpdClient->CreateShipmentWithLabelsBc($request);
         $result = $response->CreateShipmentWithLabelsBcResult;
 
-        /** @var \Ekyna\Component\Dpd\EPrint\Model\Label $label */
+        $trackingCode = null;
+        /** @var ShipmentBc $shipment */
+        $shipment = $result->shipments[0];
+
+        $barCode = $shipment->Shipment->BarcodeId;
+        if ('' !== $barCode) {
+            $trackingCode = $barCode;
+        }
+
+        /** @var Label $label */
         $label = $result->labels[0];
 
-        return $label->label;
+        return new ShipmentResponse($label->label, $trackingCode);
     }
 
     private function buildDpdClient(): EPrint\Api

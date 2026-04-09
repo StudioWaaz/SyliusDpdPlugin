@@ -47,6 +47,11 @@ class ShippingExportEventListener
         $labelContent = $this->shippingLabelFetcher->getLabelContent();
         Assert::stringNotEmpty($labelContent);
 
+        $trackingCode = $this->shippingLabelFetcher->getTrackingCode();
+        if ($trackingCode !== null) {
+            $shipment->setTracking($trackingCode);
+        }
+
         $this->saveShippingLabel($shippingExport, $labelContent, 'pdf'); // Save label
         $this->markShipmentAsExported($shippingExport); // Mark shipment as "Exported"
     }

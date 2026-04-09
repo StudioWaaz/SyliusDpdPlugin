@@ -9,11 +9,12 @@ use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Waaz\SyliusDpdPlugin\Api\Model\ShipmentResponse;
 use Webmozart\Assert\Assert;
 
 class ShippingLabelFetcher implements ShippingLabelFetcherInterface
 {
-    private ?string $response = null;
+    private ?ShipmentResponse $response = null;
 
     public function __construct(
         private RequestStack $requestStack,
@@ -59,6 +60,15 @@ class ShippingLabelFetcher implements ShippingLabelFetcherInterface
 
         Assert::notNull($this->response);
 
-        return $this->response;
+        return $this->response->getLabelContent();
+    }
+
+    public function getTrackingCode(): ?string
+    {
+        if (null === $this->response) {
+            return null;
+        }
+
+        return $this->response->getTrackingCode();
     }
 }

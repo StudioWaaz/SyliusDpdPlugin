@@ -12,4 +12,6 @@ interface ShippingLabelFetcherInterface
     public function createShipment(ShippingGatewayInterface $shippingGateway, ShipmentInterface $shipment): void;
 
     public function getLabelContent(): ?string;
+
+    public function getTrackingCode(): ?string;
 }
