@@ -8,14 +8,15 @@ use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
 use Ekyna\Component\Dpd\EPrint;
 use Ekyna\Component\Dpd\EPrint\Enum\ETypeContact;
 use Ekyna\Component\Dpd\EPrint\Model\Contact;
-use Ekyna\Component\Dpd\EPrint\Model\Label;
 use Ekyna\Component\Dpd\EPrint\Model\ParcelShop;
-use Ekyna\Component\Dpd\EPrint\Model\ShipmentBc;
 use Ekyna\Component\Dpd\EPrint\Model\ShopAddress;
 use Ekyna\Component\Dpd\EPrint\Model\StdServices;
 use Setono\SyliusPickupPointPlugin\Model\PickupPointCode;
 use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
+use Sylius\Component\Core\Model\AddressInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Waaz\SyliusDpdPlugin\Api\Model\ShipmentResponse;
+use Waaz\SyliusDpdPlugin\Provider\ParcelProviderInterface;
 use Webmozart\Assert\Assert;
 
 class Client implements ClientInterface
@@ -25,8 +26,8 @@ class Client implements ClientInterface
     private ?ShipmentInterface $shipment = null;
 
     public function __construct(
-        private string $weightUnit,
         private bool $sandbox,
+        private ParcelProviderInterface $parcelProvider,
     ) {
     }
 
@@ -45,52 +46,115 @@ class Client implements ClientInterface
         Assert::notNull($this->shipment, 'Shipment cannot be null');
         Assert::notNull($this->shippingGateway, 'Shipping gateway cannot be null');
 
+        $parcels = $this->parcelProvider->getParcels($this->shipment);
+        Assert::notEmpty($parcels, 'At least one parcel is required');
+
         $dpdClient = $this->buildDpdClient();
 
-        $request = $this->createLabelRequest();
+        if (count($parcels) === 1) {
+            $request = $this->createLabelRequest();
+            $request->labelType = $this->createLabelType();
+            $request->receiveraddress = $this->createReceiverAddress();
+            $request->shipperaddress = $this->createShipperAddress();
 
-        $request->labelType = $this->createLabelType();
+            $parcel = $parcels[0];
+            $request->weight = (string) $parcel->getWeight();
+            $request->referencenumber = (string) $parcel->getReference1();
+            $request->reference2 = (string) $parcel->getReference2();
+            $request->reference3 = (string) $parcel->getReference3();
 
-        $request->receiveraddress = $this->createReceiverAddress();
+            /** @var string $dpdType */
+            $dpdType = $this->shippingGateway->getConfigValue('type');
 
-        $request->shipperaddress = $this->createShipperAddress();
+            if ($dpdType === 'predict') {
+                $request->services = $this->addPredictService();
+            } elseif ($dpdType === 'relay') {
+                $request->services = $this->addRelayService();
+            }
 
-        // Shipment weight
-        if ($this->weightUnit === 'g') {
-            $weight = $this->shipment->getShippingWeight() / 1000;
-        } else {
-            $weight = $this->shipment->getShippingWeight();
+            $response = $dpdClient->CreateShipmentWithLabelsBc($request);
+            $result = $response->CreateShipmentWithLabelsBcResult;
+
+            $trackingCode = null;
+            /** @var EPrint\Model\ShipmentBc $shipment */
+            $shipment = $result->shipments[0];
+
+            $barCode = $shipment->Shipment->BarcodeId;
+            if ('' !== $barCode) {
+                $trackingCode = $barCode;
+            }
+
+            /** @var EPrint\Model\Label $label */
+            $label = $result->labels[0];
+
+            return new ShipmentResponse($label->label, $trackingCode);
         }
 
-        $weight = round($weight, 2);
-
-        $request->weight = (string) $weight;
+        $request = $this->createMultiLabelRequest();
+        $request->receiveraddress = $this->createReceiverAddress();
+        $request->shipperaddress = $this->createShipperAddress();
 
         /** @var string $dpdType */
         $dpdType = $this->shippingGateway->getConfigValue('type');
 
+        $services = null;
         if ($dpdType === 'predict') {
-            $request->services = $this->addPredictService();
-        } elseif ($dpdType === 'relay') {
-            $request->services = $this->addRelayService();
+            $services = $this->addMultiPredictService();
         }
 
-        $response = $dpdClient->CreateShipmentWithLabelsBc($request);
-        $result = $response->CreateShipmentWithLabelsBcResult;
-
-        $trackingCode = null;
-        /** @var ShipmentBc $shipment */
-        $shipment = $result->shipments[0];
-
-        $barCode = $shipment->Shipment->BarcodeId;
-        if ('' !== $barCode) {
-            $trackingCode = $barCode;
+        if (null !== $services) {
+            $request->services = $services;
         }
 
-        /** @var Label $label */
-        $label = $result->labels[0];
+        foreach ($parcels as $parcel) {
+            $slave = new EPrint\Model\SlaveRequest();
+            $slave->weight = (string) $parcel->getWeight();
+            $slave->referencenumber = (string) $parcel->getReference1();
+            $slave->reference2 = (string) $parcel->getReference2();
+            $slave->reference3 = (string) $parcel->getReference3();
 
-        return new ShipmentResponse($label->label, $trackingCode);
+            $request->addSlave($slave);
+        }
+
+        $response = $dpdClient->CreateMultiShipmentBc($request);
+        $result = $response->CreateMultiShipmentBcResult;
+
+        $trackingCodes = [];
+        $labelContents = [];
+
+        /** @var EPrint\Model\ShipmentBc $shipmentBc */
+        foreach ($result->shipments as $shipmentBc) {
+            $barCode = $shipmentBc->Shipment->BarcodeId;
+            if ('' !== $barCode) {
+                $trackingCodes[] = $barCode;
+
+                // On récupère l'étiquette pour chaque colis
+                $labelRequest = new EPrint\Request\ReceiveLabelBcRequest();
+                $labelRequest->customer = new EPrint\Model\Customer();
+                /** @var string $centerNumber */
+                $centerNumber = $this->shippingGateway->getConfigValue('customer_centernumber');
+                /** @var string $countryCode */
+                $countryCode = $this->shippingGateway->getConfigValue('customer_countrycode');
+                /** @var string $customerNumber */
+                $customerNumber = $this->shippingGateway->getConfigValue('customer_number');
+
+                $labelRequest->customer->centernumber = $centerNumber;
+                $labelRequest->customer->countrycode = $countryCode;
+                $labelRequest->customer->number = $customerNumber;
+                $labelRequest->shipmentNumber = $barCode;
+                $labelRequest->labelType = $this->createLabelType();
+
+                $labelResponse = $dpdClient->GetLabelBc($labelRequest);
+                $labelResult = $labelResponse->GetLabelBcResult;
+
+                /** @var EPrint\Model\Label $label */
+                foreach ($labelResult->labels as $label) {
+                    $labelContents[] = $label->label;
+                }
+            }
+        }
+
+        return new ShipmentResponse(implode('', $labelContents), implode(',', $trackingCodes));
     }
 
     private function buildDpdClient(): EPrint\Api
@@ -150,10 +214,10 @@ class Client implements ClientInterface
     {
         Assert::notNull($this->shipment, 'Shipment cannot be null');
 
-        /** @var \Sylius\Component\Core\Model\OrderInterface $order */
+        /** @var OrderInterface $order */
         $order = $this->shipment->getOrder();
 
-        /** @var \Sylius\Component\Core\Model\AddressInterface $address */
+        /** @var AddressInterface $address */
         $address = $order->getShippingAddress();
 
         $receiveraddress = new EPrint\Model\Address();
@@ -213,10 +277,10 @@ class Client implements ClientInterface
         $services->contact->type = ETypeContact::PREDICT;
 
         Assert::notNull($this->shipment, 'Shipment cannot be null');
-        /** @var \Sylius\Component\Core\Model\OrderInterface $order */
+        /** @var OrderInterface $order */
         $order = $this->shipment->getOrder();
 
-        /** @var \Sylius\Component\Core\Model\AddressInterface $address */
+        /** @var AddressInterface $address */
         $address = $order->getShippingAddress();
 
         $phoneNumber = $address->getPhoneNumber();
@@ -238,10 +302,10 @@ class Client implements ClientInterface
         $setonoPickupPointCode = PickupPointCode::createFromString($pickupPointId);
         $services->parcelshop->shopaddress->shopid = $setonoPickupPointCode->getIdPart();
 
-        /** @var \Sylius\Component\Core\Model\OrderInterface $order */
+        /** @var OrderInterface $order */
         $order = $this->shipment->getOrder();
 
-        /** @var \Sylius\Component\Core\Model\AddressInterface $address */
+        /** @var AddressInterface $address */
         $address = $order->getShippingAddress();
 
         $phoneNumber = $address->getPhoneNumber();
@@ -249,6 +313,45 @@ class Client implements ClientInterface
 
         $services->contact = new Contact();
         $services->contact->type = ETypeContact::AUTOMATIC_SMS;
+        $services->contact->sms = $phoneNumber;
+
+        return $services;
+    }
+
+    private function createMultiLabelRequest(): EPrint\Request\MultiShipmentRequest
+    {
+        Assert::notNull($this->shippingGateway, 'Shipping gateway cannot be null');
+
+        /** @var string $centerNumber */
+        $centerNumber = $this->shippingGateway->getConfigValue('customer_centernumber');
+        /** @var string $countryCode */
+        $countryCode = $this->shippingGateway->getConfigValue('customer_countrycode');
+        /** @var string $customerNumber */
+        $customerNumber = $this->shippingGateway->getConfigValue('customer_number');
+
+        $request = new EPrint\Request\MultiShipmentRequest();
+        $request->customer_centernumber = $centerNumber;
+        $request->customer_countrycode = $countryCode;
+        $request->customer_number = $customerNumber;
+
+        return $request;
+    }
+
+    private function addMultiPredictService(): EPrint\Model\MultiServices
+    {
+        $services = new EPrint\Model\MultiServices();
+        $services->contact = new Contact();
+        $services->contact->type = ETypeContact::PREDICT;
+
+        Assert::notNull($this->shipment, 'Shipment cannot be null');
+        /** @var OrderInterface $order */
+        $order = $this->shipment->getOrder();
+
+        /** @var AddressInterface $address */
+        $address = $order->getShippingAddress();
+
+        $phoneNumber = $address->getPhoneNumber();
+        Assert::notNull($phoneNumber, 'Phone number cannot be null for predict service');
         $services->contact->sms = $phoneNumber;
 
         return $services;

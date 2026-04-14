@@ -17,11 +17,13 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Setono\SyliusPickupPointPlugin\Model\ShipmentInterface;
 use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
 
+use Waaz\SyliusDpdPlugin\Provider\ParcelProviderInterface;
+
 class ClientSpec extends ObjectBehavior
 {
-    function let(): void 
+    function let(ParcelProviderInterface $parcelProvider): void
     {
-        $this->beConstructedWith('g', true);
+        $this->beConstructedWith(true, $parcelProvider);
     }
 
     function it_is_initializable(): void
@@ -36,8 +38,9 @@ class ClientSpec extends ObjectBehavior
         AddressInterface $address,
         OrderInterface $order,
         CustomerInterface $customer,
+        ParcelProviderInterface $parcelProvider,
     ): void {
-        
+        $parcelProvider->getParcels($shipment)->willReturn([new \Waaz\SyliusDpdPlugin\Api\Model\Parcel(2.0)]);
 
         $this->setShippingGateway($shippingGateway);
         $this->setShipment($shipment);
@@ -54,7 +57,7 @@ class ClientSpec extends ObjectBehavior
 
 
         $customer->getEmail()->willReturn('alex@durand.fr');
-        
+
         $order->getShippingAddress()->willReturn($address);
         $order->getCustomer()->willReturn($customer);
         $shipment->getOrder()->willReturn($order);
@@ -73,8 +76,9 @@ class ClientSpec extends ObjectBehavior
         AddressInterface $address,
         OrderInterface $order,
         CustomerInterface $customer,
+        ParcelProviderInterface $parcelProvider,
     ): void {
-        
+        $parcelProvider->getParcels($shipment)->willReturn([new \Waaz\SyliusDpdPlugin\Api\Model\Parcel(2.0)]);
 
         $this->setShippingGateway($shippingGateway);
         $shippingGateway->getConfigValue('type')->willReturn('predict');
@@ -92,7 +96,7 @@ class ClientSpec extends ObjectBehavior
 
 
         $customer->getEmail()->willReturn('alex@durand.fr');
-        
+
         $order->getShippingAddress()->willReturn($address);
         $order->getCustomer()->willReturn($customer);
         $shipment->getOrder()->willReturn($order);
@@ -111,8 +115,9 @@ class ClientSpec extends ObjectBehavior
         AddressInterface $address,
         OrderInterface $order,
         CustomerInterface $customer,
+        ParcelProviderInterface $parcelProvider,
     ): void {
-        
+        $parcelProvider->getParcels($shipment)->willReturn([new \Waaz\SyliusDpdPlugin\Api\Model\Parcel(2.0)]);
 
         $this->setShippingGateway($shippingGateway);
         $shippingGateway->getConfigValue('type')->willReturn('relay');
@@ -130,7 +135,7 @@ class ClientSpec extends ObjectBehavior
 
 
         $customer->getEmail()->willReturn('alex@durand.fr');
-        
+
         $order->getShippingAddress()->willReturn($address);
         $order->getCustomer()->willReturn($customer);
         $shipment->getOrder()->willReturn($order);
@@ -155,6 +160,41 @@ class ClientSpec extends ObjectBehavior
         $this->shouldThrow(new InvalidArgumentException('Shipping gateway cannot be null'))->during('createExpedition');
     }
 
+    function it_creates_multi_shipment_request_when_multiple_parcels_are_provided(
+        ShippingGatewayInterface $shippingGateway,
+        ShipmentInterface $shipment,
+        AddressInterface $address,
+        OrderInterface $order,
+        CustomerInterface $customer,
+        ParcelProviderInterface $parcelProvider,
+    ): void {
+        $parcelProvider->getParcels($shipment)->willReturn([
+            new \Waaz\SyliusDpdPlugin\Api\Model\Parcel(2.0, 'REF1'),
+            new \Waaz\SyliusDpdPlugin\Api\Model\Parcel(1.5, 'REF2'),
+        ]);
+
+        $this->setShippingGateway($shippingGateway);
+        $this->setShipment($shipment);
+
+        $this->configure($shippingGateway);
+
+        $address->getFullName()->willReturn('Mongabure Ibes');
+        $address->getCountryCode()->willReturn('FR');
+        $address->getStreet()->willReturn('9 rue Port du Temple');
+        $address->getPhoneNumber()->willReturn('0500000000');
+        $address->getCity()->willReturn('BIARRITZ');
+        $address->getPostcode()->willReturn('64200');
+
+        $customer->getEmail()->willReturn('alex@durand.fr');
+
+        $order->getShippingAddress()->willReturn($address);
+        $order->getCustomer()->willReturn($customer);
+        $shipment->getOrder()->willReturn($order);
+        $shipment->getPickupPointId()->willReturn('DPD:12345');
+
+        $this->shouldThrow(ClientException::class)->during('createExpedition');
+    }
+
     private function configure(ShippingGatewayInterface $shippingGateway): ObjectWrapper
     {
         $shippingGateway->getConfigValue('username')->willReturn('test');
@@ -172,7 +212,7 @@ class ClientSpec extends ObjectBehavior
         $shippingGateway->getConfigValue('customer_centernumber')->willReturn(13);
         $shippingGateway->getConfigValue('customer_countrycode')->willReturn(250);
         $shippingGateway->getConfigValue('customer_number')->willReturn(23456);
-        
+
         return $shippingGateway;
     }
 }

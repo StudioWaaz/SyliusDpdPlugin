@@ -38,6 +38,9 @@ final class Configuration implements ConfigurationInterface
                     ->values(['kg', 'g'])
                     ->defaultValue('g')
                 ->end()
+                ->scalarNode('parcel_provider')
+                    ->defaultValue('waaz.dpd_plugin.provider.parcel_provider.default')
+                ->end()
             ->end()
         ;
     }

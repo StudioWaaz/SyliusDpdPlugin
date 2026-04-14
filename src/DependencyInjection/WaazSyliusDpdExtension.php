@@ -25,6 +25,8 @@ final class WaazSyliusDpdExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('services.yml');
+
+        $container->setAlias('waaz.dpd_plugin.provider.parcel_provider', $config['parcel_provider']);
     }
 
     public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface

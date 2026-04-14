@@ -18,3 +18,4 @@ php.ini
 .yarnrc.yml
 /tests/Application/.yarn/
 /tests/Application/public/build/
+.idea/

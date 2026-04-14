@@ -34,8 +34,16 @@ services:
     waaz.dpd_plugin.api.client:
         class: Waaz\SyliusDpdPlugin\Api\Client
         arguments:
-            - '%waaz_sylius_dpd_plugin.weight_unit%'
             - '%waaz_sylius_dpd_plugin.sandbox%'
+            - '@waaz.dpd_plugin.provider.parcel_provider'
+
+    waaz.dpd_plugin.provider.parcel_provider.default:
+        class: Waaz\SyliusDpdPlugin\Provider\DefaultParcelProvider
+        arguments:
+            - '%waaz_sylius_dpd_plugin.weight_unit%'
+
+    waaz.dpd_plugin.provider.parcel_provider:
+        alias: waaz.dpd_plugin.provider.parcel_provider.default
 
     waaz.dpd_plugin.api.pickup_point_client:
         class: Waaz\SyliusDpdPlugin\Api\PickupPointClient
