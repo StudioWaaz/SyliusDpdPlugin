@@ -46,8 +46,13 @@ class Client implements ClientInterface
         Assert::notNull($this->shippingGateway, 'Shipping gateway cannot be null');
 
         $dpdClient = $this->buildDpdClient();
-
         $request = $this->createLabelRequest();
+
+        $order = $this->shipment->getOrder();
+        Assert::notNull($order, 'Order cannot be null');
+        $orderNumber = $order->getNumber();
+        Assert::notNull($orderNumber, 'Order number cannot be null');
+        $request->referencenumber = $orderNumber;
 
         $request->labelType = $this->createLabelType();
 

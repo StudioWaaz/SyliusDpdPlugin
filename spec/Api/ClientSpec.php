@@ -19,7 +19,7 @@ use BitBag\SyliusShippingExportPlugin\Entity\ShippingGatewayInterface;
 
 class ClientSpec extends ObjectBehavior
 {
-    function let(): void 
+    function let(): void
     {
         $this->beConstructedWith('g', true);
     }
@@ -37,7 +37,7 @@ class ClientSpec extends ObjectBehavior
         OrderInterface $order,
         CustomerInterface $customer,
     ): void {
-        
+
 
         $this->setShippingGateway($shippingGateway);
         $this->setShipment($shipment);
@@ -54,7 +54,8 @@ class ClientSpec extends ObjectBehavior
 
 
         $customer->getEmail()->willReturn('alex@durand.fr');
-        
+        $order->getNumber()->willReturn('000001');
+
         $order->getShippingAddress()->willReturn($address);
         $order->getCustomer()->willReturn($customer);
         $shipment->getOrder()->willReturn($order);
@@ -74,7 +75,7 @@ class ClientSpec extends ObjectBehavior
         OrderInterface $order,
         CustomerInterface $customer,
     ): void {
-        
+
 
         $this->setShippingGateway($shippingGateway);
         $shippingGateway->getConfigValue('type')->willReturn('predict');
@@ -92,7 +93,8 @@ class ClientSpec extends ObjectBehavior
 
 
         $customer->getEmail()->willReturn('alex@durand.fr');
-        
+        $order->getNumber()->willReturn('000001');
+
         $order->getShippingAddress()->willReturn($address);
         $order->getCustomer()->willReturn($customer);
         $shipment->getOrder()->willReturn($order);
@@ -112,7 +114,7 @@ class ClientSpec extends ObjectBehavior
         OrderInterface $order,
         CustomerInterface $customer,
     ): void {
-        
+
 
         $this->setShippingGateway($shippingGateway);
         $shippingGateway->getConfigValue('type')->willReturn('relay');
@@ -130,7 +132,8 @@ class ClientSpec extends ObjectBehavior
 
 
         $customer->getEmail()->willReturn('alex@durand.fr');
-        
+        $order->getNumber()->willReturn('000001');
+
         $order->getShippingAddress()->willReturn($address);
         $order->getCustomer()->willReturn($customer);
         $shipment->getOrder()->willReturn($order);
@@ -172,7 +175,7 @@ class ClientSpec extends ObjectBehavior
         $shippingGateway->getConfigValue('customer_centernumber')->willReturn(13);
         $shippingGateway->getConfigValue('customer_countrycode')->willReturn(250);
         $shippingGateway->getConfigValue('customer_number')->willReturn(23456);
-        
+
         return $shippingGateway;
     }
 }
