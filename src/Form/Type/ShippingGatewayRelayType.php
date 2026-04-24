@@ -113,6 +113,10 @@ final class ShippingGatewayRelayType extends AbstractType
                 'required' => false,
                 'choices' => [
                     'waaz.ui.dpd_printer_format.choices.pdf' => 'PDF',
+                    'waaz.ui.dpd_printer_format.choices.pdf_a6' => 'PDF_A6',
+                    'waaz.ui.dpd_printer_format.choices.zpl' => 'ZPL',
+                    'waaz.ui.dpd_printer_format.choices.zpl_a6' => 'ZPL_A6',
+                    'waaz.ui.dpd_printer_format.choices.epl' => 'EPL',
                 ],
                 'data' => 'PDF',
             ])

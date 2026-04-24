@@ -14,8 +14,12 @@ waaz:
         dpd_customer_number: 'Numéro client DPD'
         dpd_customer_centernumber: 'Numéro de centre DPD'
         dpd_customer_countrycode: 'Code pays DPD'
-        dpd_printer_format: 
+        dpd_printer_format:
             label: 'Format d''impression'
             choices:
-                pdf: 'PDF'
+                pdf: 'PDF (A4)'
+                pdf_a6: 'PDF A6'
+                zpl: 'ZPL'
+                zpl_a6: 'ZPL A6'
+                epl: 'EPL'
         dpd_sender_commercial_address: 'Est-ce une adresse commerciale ?'
